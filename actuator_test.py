@@ -49,4 +49,6 @@ if test_stepper:
         move.pause()
         time.sleep(2)
 
+        move.to_location(0)
+
 
