@@ -22,7 +22,7 @@ if test_servo:
 
 
 if test_stepper:
-    gpios = [17, 27, 22, 10] # Set the gpios being used here.
+    gpios = [17, 27, 22, 10] # Set the gpios being used here, in order
 
     s = stepMotors(gpios)
 

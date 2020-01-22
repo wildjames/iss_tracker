@@ -30,18 +30,17 @@ class stepMotors:
 
     return True
 
-
   def forward(self):
     if self.state:
       self.cleanup()
 
     self.direction = 1
     self.stepCounter = 0
+
     self.state = True
     self.thread = threading.Thread(target=self.run, args=())
     self.thread.daemon = True
     self.thread.start()
-
 
   def backward(self):
     if self.state:
@@ -57,19 +56,22 @@ class stepMotors:
   def run(self):
     waitTime = 0.001
     stepCount=len(self.seq)
-    try:
-      while self.state:
-        for pin in range(0,4):
-          xPin=self.motorBase[pin]
-          if self.seq[self.stepCounter][pin]!=0:
-            xPin.on()
-          else:
-            xPin.off()
-        time.sleep(waitTime)
-        self.stepCounter += self.direction
-        if (self.stepCounter >= stepCount):
-          self.stepCounter = 0
-        if (self.stepCounter < 0):
-          self.stepCounter = stepCount+self.direction
-    except:
-      raise()
+
+    while self.state:
+    for pin in range(0,4):
+        xPin=self.motorBase[pin]
+
+        if self.seq[self.stepCounter][pin]!=0:
+        xPin.on()
+        else:
+        xPin.off()
+
+    time.sleep(waitTime)
+
+    self.stepCounter += self.direction
+
+    if (self.stepCounter >= stepCount):
+        self.stepCounter = 0
+
+    if (self.stepCounter < 0):
+        self.stepCounter = stepCount+self.direction
