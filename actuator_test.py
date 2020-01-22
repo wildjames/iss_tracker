@@ -1,7 +1,7 @@
 from gpiozero import Servo, OutputDevice
 from time import sleep
 from stepper import stepper
-
+import pigpio
 
 
 test_servo = False
