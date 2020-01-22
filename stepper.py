@@ -90,7 +90,7 @@ class stepMotors:
     def to_angle(self, desired_angle, direction=None):
         '''Desired angle is in degrees'''
         if direction is None:
-            self.direction = -1 if self.location > desired_angle else +1
+            self.direction = +1 if self.location > desired_angle else -1
 
         desired_angle = desired_angle % 360
         self._desired_angle = desired_angle
@@ -126,8 +126,8 @@ class stepMotors:
             if self.stepCounter < 0:
                 self.stepCounter = stepCount+self.direction
 
-            print("Distance: {}".format(abs(self.angle - self._desired_angle)))
-            print("Tol: {}".format(1/self.STEPS_PER_REV))
+            print("Distance: {:.4f}".format(abs(self.angle - self._desired_angle)))
+            print("Tol: {:.4f}".format(1/self.STEPS_PER_REV))
 
 
     def run(self):
