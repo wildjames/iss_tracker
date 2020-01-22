@@ -10,65 +10,20 @@ from numpy.random import randint
 test_servo = False
 test_stepper = True
 
-if test_servo:
-    servo = Servo(14)
+servo = Servo(14)
 
-    while True:
-        servo.min()
-        sleep(1)
-        servo.mid()
-        sleep(1)
-        servo.max()
-        sleep(1)
+stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
+move = stepMotors(stepper_pins)
 
+while True:
+    print("Moving to {} deg".format(0))
+    move.to_angle(0)
+    servo.min()
+    time.sleep(10)
 
-if test_stepper:
-    gpios = [17, 27, 22, 10] # Set the gpios being used here, in order
-
-    move = stepMotors(gpios)
-    while True:
-        # move.forward()
-        # stop = time.perf_counter() + 5
-        # while time.perf_counter() < stop:
-        #     print("Stepper location: {: <6d}".format(move.location), end='\r')
-
-        # move.backward()
-        # stop = time.perf_counter() + 5
-        # while time.perf_counter() < stop:
-        #     print("Stepper location: {: <6d}".format(move.location), end='\r')
-
-        # move.forward()
-        # stop = time.perf_counter() + 1
-        # while time.perf_counter() < stop:
-        #     print("Stepper location: {: <6d}".format(move.location), end='\r')
-
-        # move.backward()
-        # stop = time.perf_counter() + 1
-        # while time.perf_counter() < stop:
-        #     print("Stepper location: {: <6d}".format(move.location), end='\r')
-
-        # move.pause()
-        # time.sleep(2)
-
-        print("\nMoving to {} deg".format(0))
-        move.to_angle(0)
-        time.sleep(10)
-        # stop = time.perf_counter() + 10
-        # while time.perf_counter() < stop:
-        #     print("Stepper location: {: <8.3f}".format(move.angle), end='\r')
-
-        print("\nMoving to {} deg".format(90))
-        move.to_angle(90)
-        time.sleep(10)
-        # stop = time.perf_counter() + 10
-        # while time.perf_counter() < stop:
-        #     print("Stepper location: {: <8.3f}".format(move.angle), end='\r')
-
-        # randloc = randint(360)
-        # print("\nMoving to {} deg".format(randloc))
-        # move.to_angle(randloc)
-        # stop = time.perf_counter() + 10
-        # while time.perf_counter() < stop:
-        #     print("Stepper location: {: <8.3f}".format(move.angle), end='\r')
+    print("Moving to {} deg".format(90))
+    move.to_angle(90)
+    servo.max()
+    time.sleep(10)
 
 
