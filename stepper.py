@@ -130,8 +130,8 @@ class stepMotors:
 
             pdist = dist
             dist = abs(self.angle - self._desired_angle)
-            print("Distance: {:.4f}".format(dist)
-            if pdist >= 0 and dist < 0 or pdist <= 0 and dist > 0:
+            print("Distance: {:.4f}".format(dist))
+            if (pdist >= 0 and dist < 0) or (pdist <= 0 and dist > 0):
                 break
 
     def run(self):
