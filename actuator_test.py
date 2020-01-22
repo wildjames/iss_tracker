@@ -50,11 +50,14 @@ if test_stepper:
         # time.sleep(2)
 
         move.to_location(0)
-        print("Stepper location: {}".format(move.location), end = '\n')
-        time.sleep(5)
+        stop = time.perf_counter() + 5
+        while time.perf_counter() < stop:
+            print("Stepper location: {: <6d}".format(move.location), end='\r')
+
         move.to_location(180)
-        print("Stepper location: {}".format(move.location), end = '\n')
-        time.sleep(5)
+        stop = time.perf_counter() + 5
+        while time.perf_counter() < stop:
+            print("Stepper location: {: <6d}".format(move.location), end='\r')
 
 
 
