@@ -26,10 +26,9 @@ class stepMotors:
 
         self.state = False
 
-        self.location = 0.0
-
         self.WAIT_TIME = 1/1000.
         self.STEPS_PER_REV = 4096.
+        self.location = 0.0
 
     @property
     def location(self):
