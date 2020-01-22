@@ -7,23 +7,24 @@ import time
 from numpy.random import randint
 
 
-test_servo = False
-test_stepper = True
-
 servo = Servo(14)
 
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 move = stepMotors(stepper_pins)
 
-while True:
-    print("Moving to {} deg".format(0))
-    move.to_angle(0)
-    servo.min()
-    time.sleep(10)
+DELAY = 5 # seconds
 
-    print("Moving to {} deg".format(90))
-    move.to_angle(90)
+servo_angle = 0
+while True:
+    print("Moving to {} deg".format(servo_angle))
+    move.to_angle(servo_angle)
+    servo.min()
+    time.sleep(DELAY)
+
+    servo_angle += 90
+    print("Moving to {} deg".format(servo_angle))
+    move.to_angle(servo_angle)
     servo.max()
-    time.sleep(10)
+    time.sleep(DELAY)
 
 
