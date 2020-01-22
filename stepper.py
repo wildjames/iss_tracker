@@ -87,13 +87,13 @@ class stepMotors:
         self.thread.daemon = True
         self.thread.start()
 
-    def to_location(self, desired_angle, direction=None):
+    def to_angle(self, desired_angle, direction=None):
         '''Desired angle is in degrees'''
         if direction is None:
             self.direction = -1 if self.location > desired_angle else +1
 
         desired_angle = desired_angle % 360
-        self._desired_location = desired_angle
+        self._desired_angle = desired_angle
 
         if self.state:
             self.cleanup()
@@ -107,7 +107,7 @@ class stepMotors:
     def _move_to(self):
         stepCount = len(self.seq)
 
-        while self.state and abs(self.angle - self._desired_location) > 1/self.STEPS_PER_REV:
+        while self.state and abs(self.angle - self._desired_angle) > 1/self.STEPS_PER_REV:
             for pin in range(0,4):
                 xPin=self.motorBase[pin]
 

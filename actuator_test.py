@@ -50,21 +50,23 @@ if test_stepper:
         # move.pause()
         # time.sleep(2)
 
-        move.to_location(0)
-        stop = time.perf_counter() + 5
+        print("\nMoving to {} deg".format(0))
+        move.to_angle(0)
+        stop = time.perf_counter() + 10
         while time.perf_counter() < stop:
-            print("Stepper location: {: <6.3f}".format(move.location), end='\r')
+            print("Stepper location: {: <6.3f}".format(move.angle), end='\r')
 
-        move.to_location(180)
-        stop = time.perf_counter() + 5
+        print("\nMoving to {} deg".format(180))
+        move.to_angle(180)
+        stop = time.perf_counter() + 10
         while time.perf_counter() < stop:
-            print("Stepper location: {: <6.3f}".format(move.location), end='\r')
+            print("Stepper location: {: <6.3f}".format(move.angle), end='\r')
 
         randloc = randint(360)
-        print("Moving to {} deg".format(randloc))
-        move.to_location(randloc)
-        stop = time.perf_counter() + 5
+        print("\nMoving to {} deg".format(randloc))
+        move.to_angle(randloc)
+        stop = time.perf_counter() + 10
         while time.perf_counter() < stop:
-            print("Stepper location: {: <6.3f}".format(move.location), end='\r')
+            print("Stepper location: {: <6.3f}".format(move.angle), end='\r')
 
 
