@@ -6,72 +6,78 @@ from pprint import pprint
 
 
 class stepMotors:
-  def __init__(self, pins=[6,13,19,26]):
-    self.motorBase = []
-    self.pins = pins
-    for pin in self.pins:
-      self.motorBase.append(OutputDevice(pin))
+    def __init__(self, pins=[6,13,19,26]):
+        self.motorBase = []
+        self.pins = pins
+        for pin in self.pins:
+            self.motorBase.append(OutputDevice(pin))
 
-    self.seq = [
-        [1,0,1,0],
-        [1,0,0,1],
-        [0,1,0,1],
-        [0,1,1,0]
-    ]
-    self.state = False
+        # The coils need to be toggled in this order
+        self.seq = [
+            [1,0,1,0],
+            [1,0,0,1],
+            [0,1,0,1],
+            [0,1,1,0]
+        ]
 
-  def cleanup(self):
-    if self.thread.is_alive():
-      self.state = False
-      self.thread.join()
+        self.state = False
 
-    for GpioOutputDevice in self.motorBase:
-      GpioOutputDevice.off()
+    def cleanup(self):
+        if self.thread.is_alive():
+            self.state = False
+            self.thread.join()
 
-    return True
+        for GpioOutputDevice in self.motorBase:
+            GpioOutputDevice.off()
 
-  def forward(self):
-    if self.state:
-      self.cleanup()
+        return True
 
-    self.direction = 1
-    self.stepCounter = 0
+    def stop(self):
+        if self.state:
+            self.cleanup()
 
-    self.state = True
-    self.thread = threading.Thread(target=self.run, args=())
-    self.thread.daemon = True
-    self.thread.start()
+    def forward(self):
+        if self.state:
+            self.cleanup()
 
-  def backward(self):
-    if self.state:
-      self.cleanup()
+        self.direction = 1
+        self.stepCounter = 0
 
-    self.direction = -1
-    self.stepCounter = 0
-    self.state = True
-    self.thread = threading.Thread(target=self.run, args=())
-    self.thread.daemon = True
-    self.thread.start()
+        self.state = True
+        self.thread = threading.Thread(target=self.run, args=())
+        self.thread.daemon = True
+        self.thread.start()
 
-  def run(self):
-    waitTime = 0.001
-    stepCount=len(self.seq)
+    def backward(self):
+        if self.state:
+            self.cleanup()
 
-    while self.state:
-        for pin in range(0,4):
-            xPin=self.motorBase[pin]
+        self.direction = -1
+        self.stepCounter = 0
+        self.state = True
+        self.thread = threading.Thread(target=self.run, args=())
+        self.thread.daemon = True
+        self.thread.start()
 
-            if self.seq[self.stepCounter][pin]!=0:
-            xPin.on()
-            else:
-            xPin.off()
+    def run(self):
+        waitTime = 0.001
+        stepCount=len(self.seq)
 
-        time.sleep(waitTime)
+        while self.state:
+            for pin in range(0,4):
+                xPin=self.motorBase[pin]
 
-        self.stepCounter += self.direction
+                if self.seq[self.stepCounter][pin]!=0:
+                    xPin.on()
+                else:
+                    xPin.off()
 
-        if (self.stepCounter >= stepCount):
-            self.stepCounter = 0
+            time.sleep(waitTime)
 
-        if (self.stepCounter < 0):
-            self.stepCounter = stepCount+self.direction
+            self.stepCounter += self.direction
+
+            if self.stepCounter >= stepCount:
+                self.stepCounter = 0
+
+            if self.stepCounter < 0:
+                self.stepCounter = stepCount+self.direction

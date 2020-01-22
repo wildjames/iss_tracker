@@ -24,21 +24,20 @@ if test_servo:
 if test_stepper:
     gpios = [17, 27, 22, 10] # Set the gpios being used here, in order
 
-    s = stepMotors(gpios)
-
+    move = stepMotors(gpios)
     while True:
-        move = stepMotors()
-
         move.forward()
-        time.sleep(4)
+        time.sleep(5)
 
         move.backward()
-        time.sleep(2)
+        time.sleep(5)
 
         move.forward()
-        time.sleep(3)
+        time.sleep(1)
 
         move.backward()
-        time.sleep(4)
+        time.sleep(1)
+
+        move.stop()
 
 
