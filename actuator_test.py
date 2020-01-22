@@ -16,6 +16,7 @@ DELAY = 10 # seconds
 
 stepper_angle = 0
 while True:
+    stepper_angle += 90
     print("Moving to {} deg".format(stepper_angle))
     move.to_angle(stepper_angle)
     servo.min()
