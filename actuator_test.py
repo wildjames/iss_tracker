@@ -12,7 +12,7 @@ servo = Servo(14)
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 move = stepMotors(stepper_pins)
 
-DELAY = 10 # seconds
+DELAY = 5 # seconds
 
 stepper_angle = 0
 while True:
