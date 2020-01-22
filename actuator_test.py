@@ -35,7 +35,7 @@ if test_stepper:
         exit(0)
 
     try:
-        s = stepper(pi, x[0], x[1], x[2], x[3])
+        s = stepper(pi, *gpios)
 
         print("Trying {}".format(x))
 
