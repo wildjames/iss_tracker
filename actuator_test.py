@@ -47,5 +47,6 @@ if test_stepper:
             print("Stepper location: {: <6d}".format(move.location), end='\r')
 
         move.stop()
+        time.sleep(2)
 
 
