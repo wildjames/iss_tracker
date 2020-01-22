@@ -12,7 +12,7 @@ class stepMotors:
         for pin in self.pins:
             self.motorBase.append(OutputDevice(pin))
 
-        # The coils need to be toggled in this order
+        # The coils need to be toggled in this order to move clockwise 1 step
         self.seq = [
             [0,1,1,1],
             [0,0,1,1],
@@ -28,6 +28,10 @@ class stepMotors:
 
         self.location = 0
 
+        self.WAIT_TIME = 1/1000.
+
+        self.STRIDE_ANGLE = 5.625 # deg per step
+
     def cleanup(self):
         if self.thread.is_alive():
             self.state = False
@@ -39,8 +43,16 @@ class stepMotors:
         return True
 
     def stop(self):
+        '''Kill all the coils, i.e. no electrically supplied torque (gearbox will still resist)'''
         if self.state:
             self.cleanup()
+
+    def pause(self):
+        '''Don't move the axel, but keep it torqued'''
+        if self.thread.is_alive():
+            self.state = False
+            self.thread.join()
+        return True
 
     def forward(self):
         if self.state:
@@ -65,8 +77,46 @@ class stepMotors:
         self.thread.daemon = True
         self.thread.start()
 
+    def to_location(self, desired_loc, direction=None):
+        if direction is None:
+            self.direction = -1 if self.location > desired_loc else +1
+
+        self._desired_location = desired_loc
+
+        if self.state:
+            self.cleanup()
+
+        self.stepCounter = 0
+        self.state = True
+        self.thread = threading.Thread(target=self._move_to, args=())
+        self.thread.daemon = True
+        self.thread.start()
+
+    def _move_to(self):
+        stepCount = len(self.seq)
+
+        while self.location != self._desired_location and self.state:
+            for pin in range(0,4):
+                xPin=self.motorBase[pin]
+
+                if self.seq[self.stepCounter][pin]!=0:
+                    xPin.on()
+                else:
+                    xPin.off()
+
+            time.sleep(self.WAIT_TIME)
+
+            self.stepCounter += self.direction
+            self.location += self.direction
+
+            if self.stepCounter >= stepCount:
+                self.stepCounter = 0
+
+            if self.stepCounter < 0:
+                self.stepCounter = stepCount+self.direction
+
+
     def run(self):
-        waitTime = 0.001
         stepCount=len(self.seq)
 
         while self.state:
@@ -78,7 +128,7 @@ class stepMotors:
                 else:
                     xPin.off()
 
-            time.sleep(waitTime)
+            time.sleep(self.WAIT_TIME)
 
             self.stepCounter += self.direction
             self.location += self.direction

@@ -46,7 +46,7 @@ if test_stepper:
         while time.perf_counter() < stop:
             print("Stepper location: {: <6d}".format(move.location), end='\r')
 
-        move.stop()
+        move.pause()
         time.sleep(2)
 
 
