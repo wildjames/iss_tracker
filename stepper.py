@@ -30,6 +30,9 @@ class stepMotors:
         self.STEPS_PER_REV = 4096.
         self.location = 0.0
 
+        # How close can a step get. Add 50% for numerical ease
+        self.TOL = 360./self.STEPS_PER_REV
+
     @property
     def location(self):
         return self._location
@@ -107,7 +110,7 @@ class stepMotors:
     def _move_to(self):
         stepCount = len(self.seq)
         dist = abs(self.angle - self._desired_angle)
-        while self.state:
+        while self.state and dist > self.TOL:
             for pin in range(0,4):
                 xPin=self.motorBase[pin]
 
@@ -127,12 +130,8 @@ class stepMotors:
             if self.stepCounter < 0:
                 self.stepCounter = stepCount+self.direction
 
-
-            pdist = dist
             dist = abs(self.angle - self._desired_angle)
-            print("Distance: {:.4f}".format(dist))
-            if (pdist >= 0 and dist < 0) or (pdist <= 0 and dist > 0):
-                break
+
 
     def run(self):
         stepCount=len(self.seq)
