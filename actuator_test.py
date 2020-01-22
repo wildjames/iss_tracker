@@ -1,6 +1,6 @@
 from gpiozero import Servo, OutputDevice
 from time import sleep
-from stepper import stepper
+from stepper import stepMotors
 import pigpio
 import itertools
 import time
@@ -22,36 +22,23 @@ if test_servo:
 
 
 if test_stepper:
-    # The stepper should move clockwise then
-    # anti-clockwise for DELAY seconds.
-
-    DELAY = 3
-
     gpios = [17, 27, 22, 10] # Set the gpios being used here.
 
-    pi=pigpio.pi()
+    s = stepMotors(gpios)
 
-    if not pi.connected:
-        exit(0)
+    while True:
+        move = stepMotors()
 
-    try:
-        s = stepper(pi, *gpios)
+        move.forward()
+        time.sleep(4)
 
-        while True:
-            stop = time.time() + DELAY
-            while time.time() < stop:
-                s.forward()
-                time.sleep(0.0001)
+        move.backward()
+        time.sleep(2)
 
-            stop = time.time() + DELAY
-            while time.time() < stop:
-                s.backward()
-                time.sleep(0.0001)
+        move.forward()
+        time.sleep(3)
 
-    except KeyboardInterrupt:
-        pass
+        move.backward()
+        time.sleep(4)
 
-    s.stop()
-
-    pi.stop()
 

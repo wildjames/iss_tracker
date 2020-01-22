@@ -1,58 +1,75 @@
-import pigpio # http://abyz.co.uk/rpi/pigpio/python.html
+import time
+import sys
+import threading
+from gpiozero import OutputDevice
+from pprint import pprint
 
-class stepper:
-    """
-    A class to pulse a stepper.
-    """
 
-    def __init__(self, pi, g1, g2, g3, g4):
-        """
-        """
-        self.pi = pi
-        self.g1 = g1
-        self.g2 = g2
-        self.g3 = g3
-        self.g4 = g4
+class stepMotors:
+  def __init__(self, pins=[6,13,19,26]):
+    self.motorBase = []
+    self.pins = pins
+    for pin in self.pins:
+      self.motorBase.append(OutputDevice(pin))
 
-        self.all = (1<<g1 | 1<<g2 | 1<<g3 | 1<<g4)
+    self.seq = [
+        [1,0,1,0],
+        [1,0,0,1],
+        [0,1,0,1],
+        [0,1,1,0]
+    ]
+    self.state = False
 
-        self.pos = 0
+  def cleanup(self):
+    if self.thread.is_alive():
+      self.state = False
+      self.thread.join()
 
-        pi.set_mode(g1, pigpio.OUTPUT)
-        pi.set_mode(g2, pigpio.OUTPUT)
-        pi.set_mode(g3, pigpio.OUTPUT)
-        pi.set_mode(g4, pigpio.OUTPUT)
+    for GpioOutputDevice in self.motorBase:
+      GpioOutputDevice.off()
 
-    def move(self):
-        pos = self.pos
-        if pos < 0:
-            pos = 7
-        elif pos > 7:
-            pos = 0
-        self.pos = pos
+    return True
 
-        if   pos == 0: on = (1<<self.g4)
-        elif pos == 1: on = (1<<self.g3 | 1<<self.g4)
-        elif pos == 2: on = (1<<self.g3)
-        elif pos == 3: on = (1<<self.g2 | 1<<self.g3)
-        elif pos == 4: on = (1<<self.g2)
-        elif pos == 5: on = (1<<self.g1 | 1<<self.g2)
-        elif pos == 6: on = (1<<self.g1)
-        else:          on = (1<<self.g1 | 1<<self.g4)
 
-        off = on ^ self.all
+  def forward(self):
+    if self.state:
+      self.cleanup()
 
-        self.pi.clear_bank_1(off)
-        self.pi.set_bank_1(on)
+    self.direction = 1
+    self.stepCounter = 0
+    self.state = True
+    self.thread = threading.Thread(target=self.run, args=())
+    self.thread.daemon = True
+    self.thread.start()
 
-    def forward(self):
-        self.pos += 1
-        self.move()
 
-    def backward(self):
-        self.pos -= 1
-        self.move()
+  def backward(self):
+    if self.state:
+      self.cleanup()
 
-    def stop(self):
-        self.pi.clear_bank_1(self.all)
+    self.direction = -1
+    self.stepCounter = 0
+    self.state = True
+    self.thread = threading.Thread(target=self.run, args=())
+    self.thread.daemon = True
+    self.thread.start()
 
+  def run(self):
+    waitTime = 0.001
+    stepCount=len(self.seq)
+    try:
+      while self.state:
+        for pin in range(0,4):
+          xPin=self.motorBase[pin]
+          if self.seq[self.stepCounter][pin]!=0:
+            xPin.on()
+          else:
+            xPin.off()
+        time.sleep(waitTime)
+        self.stepCounter += self.direction
+        if (self.stepCounter >= stepCount):
+          self.stepCounter = 0
+        if (self.stepCounter < 0):
+          self.stepCounter = stepCount+self.direction
+    except:
+      raise()
