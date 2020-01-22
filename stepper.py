@@ -26,6 +26,8 @@ class stepMotors:
 
         self.state = False
 
+        self.location = 0
+
     def cleanup(self):
         if self.thread.is_alive():
             self.state = False
@@ -79,6 +81,7 @@ class stepMotors:
             time.sleep(waitTime)
 
             self.stepCounter += self.direction
+            self.location += self.direction
 
             if self.stepCounter >= stepCount:
                 self.stepCounter = 0

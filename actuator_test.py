@@ -27,16 +27,24 @@ if test_stepper:
     move = stepMotors(gpios)
     while True:
         move.forward()
-        time.sleep(5)
+        stop = time.clock() + 5
+        while time.clock() < stop:
+            print("Stepper location: {: <6d}".format(move.location))
 
         move.backward()
-        time.sleep(5)
+        stop = time.clock() + 5
+        while time.clock() < stop:
+            print("Stepper location: {: <6d}".format(move.location))
 
         move.forward()
-        time.sleep(1)
+        stop = time.clock() + 1
+        while time.clock() < stop:
+            print("Stepper location: {: <6d}".format(move.location))
 
         move.backward()
-        time.sleep(1)
+        stop = time.clock() + 1
+        while time.clock() < stop:
+            print("Stepper location: {: <6d}".format(move.location))
 
         move.stop()
 
