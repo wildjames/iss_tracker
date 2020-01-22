@@ -26,28 +26,28 @@ if test_stepper:
 
     move = stepMotors(gpios)
     while True:
-        move.forward()
-        stop = time.perf_counter() + 5
-        while time.perf_counter() < stop:
-            print("Stepper location: {: <6d}".format(move.location), end='\r')
+        # move.forward()
+        # stop = time.perf_counter() + 5
+        # while time.perf_counter() < stop:
+        #     print("Stepper location: {: <6d}".format(move.location), end='\r')
 
-        move.backward()
-        stop = time.perf_counter() + 5
-        while time.perf_counter() < stop:
-            print("Stepper location: {: <6d}".format(move.location), end='\r')
+        # move.backward()
+        # stop = time.perf_counter() + 5
+        # while time.perf_counter() < stop:
+        #     print("Stepper location: {: <6d}".format(move.location), end='\r')
 
-        move.forward()
-        stop = time.perf_counter() + 1
-        while time.perf_counter() < stop:
-            print("Stepper location: {: <6d}".format(move.location), end='\r')
+        # move.forward()
+        # stop = time.perf_counter() + 1
+        # while time.perf_counter() < stop:
+        #     print("Stepper location: {: <6d}".format(move.location), end='\r')
 
-        move.backward()
-        stop = time.perf_counter() + 1
-        while time.perf_counter() < stop:
-            print("Stepper location: {: <6d}".format(move.location), end='\r')
+        # move.backward()
+        # stop = time.perf_counter() + 1
+        # while time.perf_counter() < stop:
+        #     print("Stepper location: {: <6d}".format(move.location), end='\r')
 
-        move.pause()
-        time.sleep(2)
+        # move.pause()
+        # time.sleep(2)
 
         move.to_location(0)
         print("Stepper location: {}".format(move.location), end = '\n')
