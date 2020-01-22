@@ -3,6 +3,7 @@ from time import sleep
 from stepper import stepper
 import pigpio
 import itertools
+import time
 
 
 test_servo = False
