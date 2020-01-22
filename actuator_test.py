@@ -29,22 +29,22 @@ if test_stepper:
         move.forward()
         stop = time.clock() + 5
         while time.clock() < stop:
-            print("Stepper location: {: <6d}".format(move.location))
+            print("Stepper location: {: <6d}".format(move.location), end='\r')
 
         move.backward()
         stop = time.clock() + 5
         while time.clock() < stop:
-            print("Stepper location: {: <6d}".format(move.location))
+            print("Stepper location: {: <6d}".format(move.location), end='\r')
 
         move.forward()
         stop = time.clock() + 1
         while time.clock() < stop:
-            print("Stepper location: {: <6d}".format(move.location))
+            print("Stepper location: {: <6d}".format(move.location), end='\r')
 
         move.backward()
         stop = time.clock() + 1
         while time.clock() < stop:
-            print("Stepper location: {: <6d}".format(move.location))
+            print("Stepper location: {: <6d}".format(move.location), end='\r')
 
         move.stop()
 
