@@ -35,21 +35,19 @@ if test_stepper:
         exit(0)
 
     try:
-        for x in itertools.permutations(gpios):
+        s = stepper(pi, x[0], x[1], x[2], x[3])
 
-            s = stepper(pi, x[0], x[1], x[2], x[3])
+        print("Trying {}".format(x))
 
-            print("Trying {}".format(x))
+        stop = time.time() + DELAY
+        while time.time() < stop:
+            s.forward()
+            time.sleep(0.0001)
 
-            stop = time.time() + DELAY
-            while time.time() < stop:
-                s.forward()
-                time.sleep(0.0001)
-
-            stop = time.time() + DELAY
-            while time.time() < stop:
-                s.backward()
-                time.sleep(0.0001)
+        stop = time.time() + DELAY
+        while time.time() < stop:
+            s.backward()
+            time.sleep(0.0001)
 
     except KeyboardInterrupt:
         pass
