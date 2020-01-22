@@ -50,5 +50,6 @@ if test_stepper:
         time.sleep(2)
 
         move.to_location(0)
+        time.sleep(5)
 
 
