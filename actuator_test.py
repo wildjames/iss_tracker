@@ -53,18 +53,18 @@ if test_stepper:
         move.to_location(0)
         stop = time.perf_counter() + 5
         while time.perf_counter() < stop:
-            print("Stepper location: {: <6d}".format(move.location), end='\r')
+            print("Stepper location: {: <6.3f}".format(move.location), end='\r')
 
         move.to_location(180)
         stop = time.perf_counter() + 5
         while time.perf_counter() < stop:
-            print("Stepper location: {: <6d}".format(move.location), end='\r')
+            print("Stepper location: {: <6.3f}".format(move.location), end='\r')
 
         randloc = randint(360)
         print("Moving to {} deg".format(randloc))
         move.to_location(randloc)
         stop = time.perf_counter() + 5
         while time.perf_counter() < stop:
-            print("Stepper location: {: <6d}".format(move.location), end='\r')
+            print("Stepper location: {: <6.3f}".format(move.location), end='\r')
 
 
