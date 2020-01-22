@@ -37,15 +37,16 @@ if test_stepper:
     try:
         s = stepper(pi, *gpios)
 
-        stop = time.time() + DELAY
-        while time.time() < stop:
-            s.forward()
-            time.sleep(0.0001)
+        while True:
+            stop = time.time() + DELAY
+            while time.time() < stop:
+                s.forward()
+                time.sleep(0.0001)
 
-        stop = time.time() + DELAY
-        while time.time() < stop:
-            s.backward()
-            time.sleep(0.0001)
+            stop = time.time() + DELAY
+            while time.time() < stop:
+                s.backward()
+                time.sleep(0.0001)
 
     except KeyboardInterrupt:
         pass
