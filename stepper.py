@@ -26,11 +26,22 @@ class stepMotors:
 
         self.state = False
 
-        self.location = 0
+        self.location = 0.0
 
         self.WAIT_TIME = 1/1000.
+        self.STEPS_PER_REV = 4096.
 
-        self.STRIDE_ANGLE = 5.625 # deg per step
+    @property
+    def location(self):
+        return self._location
+    @location.setter
+    def location(self, loc):
+        self._location = loc % self.STEPS_PER_REV
+
+    @property
+    def angle(self):
+        a = self.location * (360./self.STEPS_PER_REV)
+        return a
 
     def cleanup(self):
         if self.thread.is_alive():
@@ -77,11 +88,11 @@ class stepMotors:
         self.thread.daemon = True
         self.thread.start()
 
-    def to_location(self, desired_loc, direction=None):
+    def to_location(self, desired_angle, direction=None):
         if direction is None:
-            self.direction = -1 if self.location > desired_loc else +1
+            self.direction = -1 if self.location > desired_angle else +1
 
-        self._desired_location = desired_loc
+        self._desired_location = desired_angle
 
         if self.state:
             self.cleanup()
@@ -95,7 +106,7 @@ class stepMotors:
     def _move_to(self):
         stepCount = len(self.seq)
 
-        while self.location != self._desired_location and self.state:
+        while self.state and abs(self.angle - self._desired_location) > 1/self.STEPS_PER_REV:
             for pin in range(0,4):
                 xPin=self.motorBase[pin]
 

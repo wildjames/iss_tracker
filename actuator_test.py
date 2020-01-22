@@ -52,5 +52,9 @@ if test_stepper:
         move.to_location(0)
         print("Stepper location: {}".format(move.location), end = '\n')
         time.sleep(5)
+        move.to_location(180)
+        print("Stepper location: {}".format(move.location), end = '\n')
+        time.sleep(5)
+
 
 
