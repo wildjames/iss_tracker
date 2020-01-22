@@ -19,7 +19,6 @@ while True:
     for person in people:
         print("{:>20s}, craft: {}".format(person["name"], person["craft"]))
 
-    #map of earth
     url = "http://api.open-notify.org/iss-now.json"
     response = urllib.request.urlopen(url)
     result = json.loads(response.read())

@@ -19,13 +19,13 @@ while True:
     stepper_angle += 90
     print("Moving to {} deg".format(stepper_angle))
     move.to_angle(stepper_angle)
-    # servo.min()
+    servo.min()
     time.sleep(DELAY)
 
-    # stepper_angle += 90
-    # print("Moving to {} deg".format(stepper_angle))
-    # move.to_angle(stepper_angle)
-    # servo.max()
-    # time.sleep(DELAY)
+    stepper_angle += 90
+    print("Moving to {} deg".format(stepper_angle))
+    move.to_angle(stepper_angle)
+    servo.max()
+    time.sleep(DELAY)
 
 
