@@ -14,10 +14,14 @@ class stepMotors:
 
         # The coils need to be toggled in this order
         self.seq = [
-            [1,0,1,0],
+            [0,1,1,1],
+            [0,0,1,1],
+            [1,0,1,1],
             [1,0,0,1],
-            [0,1,0,1],
-            [0,1,1,0]
+            [1,1,0,1],
+            [1,1,0,0],
+            [1,1,1,0],
+            [0,1,1,0],
         ]
 
         self.state = False
