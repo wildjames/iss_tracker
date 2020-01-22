@@ -57,8 +57,8 @@ if test_stepper:
         # while time.perf_counter() < stop:
         #     print("Stepper location: {: <8.3f}".format(move.angle), end='\r')
 
-        print("\nMoving to {} deg".format(5))
-        move.to_angle(5)
+        print("\nMoving to {} deg".format(90))
+        move.to_angle(90)
         time.sleep(10)
         # stop = time.perf_counter() + 10
         # while time.perf_counter() < stop:
