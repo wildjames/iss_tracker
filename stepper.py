@@ -106,7 +106,7 @@ class stepMotors:
 
     def _move_to(self):
         stepCount = len(self.seq)
-        while self.state and abs(self.angle - self._desired_angle) >= 1.0/self.STEPS_PER_REV:
+        while self.state and abs(self.angle - self._desired_angle) >= stepCount/self.STEPS_PER_REV:
             for pin in range(0,4):
                 xPin=self.motorBase[pin]
 
@@ -127,7 +127,7 @@ class stepMotors:
                 self.stepCounter = stepCount+self.direction
 
             print("Distance: {:.4f}".format(abs(self.angle - self._desired_angle)))
-            print("Tol: {:.4f}".format(1/self.STEPS_PER_REV))
+            print("Tol: {:.4f}".format(stepCount/self.STEPS_PER_REV))
 
 
     def run(self):
