@@ -58,20 +58,20 @@ class stepMotors:
     stepCount=len(self.seq)
 
     while self.state:
-    for pin in range(0,4):
-        xPin=self.motorBase[pin]
+        for pin in range(0,4):
+            xPin=self.motorBase[pin]
 
-        if self.seq[self.stepCounter][pin]!=0:
-        xPin.on()
-        else:
-        xPin.off()
+            if self.seq[self.stepCounter][pin]!=0:
+            xPin.on()
+            else:
+            xPin.off()
 
-    time.sleep(waitTime)
+        time.sleep(waitTime)
 
-    self.stepCounter += self.direction
+        self.stepCounter += self.direction
 
-    if (self.stepCounter >= stepCount):
-        self.stepCounter = 0
+        if (self.stepCounter >= stepCount):
+            self.stepCounter = 0
 
-    if (self.stepCounter < 0):
-        self.stepCounter = stepCount+self.direction
+        if (self.stepCounter < 0):
+            self.stepCounter = stepCount+self.direction
