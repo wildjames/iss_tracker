@@ -37,8 +37,6 @@ if test_stepper:
     try:
         s = stepper(pi, *gpios)
 
-        print("Trying {}".format(x))
-
         stop = time.time() + DELAY
         while time.time() < stop:
             s.forward()
