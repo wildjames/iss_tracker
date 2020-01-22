@@ -96,7 +96,7 @@ class stepMotors:
 
         print("I am at {}, and want to move to {}".format(self.angle, desired_angle))
         if direction is None:
-            print("Distance is {}".format((self.angle - desired_angle))
+            print("Distance is {}".format((self.angle - desired_angle)))
             self.direction = -1 if (self.angle - desired_angle) >= 180. else +1
         print("I'll move in the direction {}".format(self.direction))
 
