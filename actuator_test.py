@@ -12,18 +12,18 @@ servo = Servo(14)
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 move = stepMotors(stepper_pins)
 
-DELAY = 5 # seconds
+DELAY = 10 # seconds
 
-servo_angle = 0
+stepper_angle = 0
 while True:
-    print("Moving to {} deg".format(servo_angle))
-    move.to_angle(servo_angle)
+    print("Moving to {} deg".format(stepper_angle))
+    move.to_angle(stepper_angle)
     servo.min()
     time.sleep(DELAY)
 
-    servo_angle += 90
-    print("Moving to {} deg".format(servo_angle))
-    move.to_angle(servo_angle)
+    stepper_angle += 90
+    print("Moving to {} deg".format(stepper_angle))
+    move.to_angle(stepper_angle)
     servo.max()
     time.sleep(DELAY)
 
