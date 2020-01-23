@@ -27,7 +27,7 @@ class stepMotors:
 
         self.state = False
 
-        self.WAIT_TIME = 1/1000.
+        self.WAIT_TIME = 1/100.
         self.STEPS_PER_REV = 4096.
         self.location = 0.0
 
