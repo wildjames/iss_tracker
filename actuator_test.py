@@ -43,3 +43,4 @@ try:
 
 except KeyboardInterrupt:
     servo.close()
+    move.cleanup()
