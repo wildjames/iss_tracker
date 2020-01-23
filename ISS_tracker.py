@@ -34,7 +34,7 @@ print("\n\n\nI am at lat, long: {:.3f}, {:.3f}\n".format(lat, lon))
 
 print("Setting up the actuators...")
 
-elevation_actuator = Servo(13, 0, -90, 90, min_allowed=-70)
+elevation_actuator = Servo(13, 0, -90, 90, min_allowed=-25)
 
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 azimuth_actuator = stepMotors(stepper_pins)

@@ -128,7 +128,6 @@ class stepMotors:
             self.stepCounter = self.stepCounter % stepCount
 
             dist = abs(self.angle - self._desired_angle)
-            print(dist)
 
     def run(self):
         stepCount=len(self.seq)
