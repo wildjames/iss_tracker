@@ -39,13 +39,15 @@ elevation_actuator = Servo(13, 0, min_angle=-87, max_angle=108, min_allowed=-45)
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 azimuth_actuator = stepMotors(stepper_pins)
 
-DELAY = 0.5 # seconds
+DELAY = 30 # seconds
 
 
 time = datetime.datetime.utcnow()
 dt = datetime.timedelta(minutes=1)
 while True:
-    time = time + dt
+    # time = time + dt
+
+    time = datetime.datetime.utcnow()
     # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
     ecef_location = locations.Location('ISS', *ecef_to_llh(predictor.get_only_position(time)))
 
