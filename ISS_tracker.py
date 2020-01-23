@@ -52,7 +52,7 @@ while True:
     ### Convert ECEF to alt, az ###
     az, elev = me.get_azimuth_elev_deg(ecef_location)
 
-    timestr = time.strftime("{%H}:{%M}")
+    timestr = time.strftime("%H:%M")
     print("  ISS alt, elev at {}: {:6.2f}, {:6.2f}".format(timestr, az, elev), end='\r')
 
     elevation_actuator.angle = elev
