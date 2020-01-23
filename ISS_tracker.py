@@ -29,6 +29,16 @@ predictor = get_predictor_from_tle_lines(TLE_LINES)
 
 print("\n\n\nI am at lat, long: {:.3f}, {:.3f}\n".format(lat, lon))
 
+print("Setting up the actuators...")
+
+elevation_actuator = Servo(13, 0, -90, 90)
+
+stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
+azimuth_actuator = stepMotors(stepper_pins)
+
+DELAY = 5 # seconds
+
+
 while True:
     # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
     now = datetime.datetime.utcnow()
@@ -39,4 +49,7 @@ while True:
 
     print("  ISS alt, elev: {:6.2f}, {:6.2f}".format(az, elev), end='\r')
 
-    sleep(1)
+    elevation_actuator.angle = elev
+    azimuth_actuator.to_angle(az)
+
+    sleep(DELAY)

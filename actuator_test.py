@@ -7,12 +7,7 @@ from numpy.random import randint
 from servo import Servo
 from stepper import stepMotors
 
-# Datasheet: https://www.bitsbox.co.uk/data/motor/sg90.pdf
-min_pw = 1e-3
-max_pw = 2e-3
-frame  = 20e-3
-
-servo = Servo(14)
+servo = Servo(13)
 
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 move = stepMotors(stepper_pins)
