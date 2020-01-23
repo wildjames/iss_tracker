@@ -42,9 +42,9 @@ azimuth_actuator = stepMotors(stepper_pins)
 DELAY = 5 # seconds
 
 
+now = datetime.datetime.utcnow()
 while True:
     # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
-    now = datetime.datetime.utcnow()
     ecef_location = locations.Location('ISS', *ecef_to_llh(predictor.get_only_position(now)))
 
     ### Convert ECEF to alt, az ###

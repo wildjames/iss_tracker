@@ -93,15 +93,7 @@ class stepMotors:
         desired_angle = desired_angle % 360
 
         if direction is None:
-            dist = self.angle - desired_angle
-
-            # Phase shift into correct space
-            while dist >= 180:
-                dist -= 360
-            while dist <= -180:
-                dist += 180
-
-            self.direction = -1 if dist > 0 else +1
+            self.direction = -1 if self.angle > desired_angle else +1
 
         self._desired_angle = desired_angle
 
