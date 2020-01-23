@@ -32,7 +32,7 @@ class stepMotors:
         self.location = 0.0
 
         # How close can a step get. Add 50% for numerical ease
-        self.TOL = 360./self.STEPS_PER_REV
+        self.TOL = 1.5 * 360./self.STEPS_PER_REV
 
     @property
     def location(self):
@@ -127,6 +127,7 @@ class stepMotors:
             self.stepCounter = self.stepCounter % stepCount
 
             dist = abs(self.angle - self._desired_angle)
+            print(dist)
 
     def run(self):
         stepCount=len(self.seq)
