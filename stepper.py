@@ -27,7 +27,7 @@ class stepMotors:
 
         self.state = False
 
-        self.WAIT_TIME = 1/100.
+        self.WAIT_TIME = 1/1000.
         self.STEPS_PER_REV = 4096.
         self.location = 0.0
 
@@ -94,7 +94,7 @@ class stepMotors:
         desired_angle = desired_angle % 360
 
         if direction is None:
-            self.direction = -1 if self.angle > desired_angle else +1
+            self.direction = -1 if self.angle < desired_angle else +1
 
         self._desired_angle = desired_angle
 
