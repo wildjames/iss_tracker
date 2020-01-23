@@ -31,6 +31,10 @@ class Servo():
 
     @value.setter
     def value(self, value):
+        '''0:1. Also None, to disengage the servo'''
+        if value is None:
+            value = 0
+
         self._value = value
 
         val = 500. + (value*2000.)
@@ -46,3 +50,7 @@ class Servo():
         '''Angle is in degrees'''
         val = (angle - self.min_angle)/(self.max_angle - self.min_angle)
         self.value = val
+
+    def close(self):
+        pi.set_servo_pulsewidth(17, 0)
+        self._pi.close()
