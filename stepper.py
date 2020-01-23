@@ -94,14 +94,11 @@ class stepMotors:
         '''Desired angle is in degrees'''
         desired_angle = desired_angle % 360
 
-        print("I am at {}, and want to move to {}".format(self.angle, desired_angle))
         if direction is None:
             dist = self.angle - desired_angle
             while dist >= 180:
                 dist -= 360
-            print("Distance is {}".format(dist))
             self.direction = -1 if dist > 0 else +1
-        print("I'll move in the direction {}".format(self.direction))
 
         self._desired_angle = desired_angle
 
