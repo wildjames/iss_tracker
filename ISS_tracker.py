@@ -1,23 +1,42 @@
-import urllib.request
+import datetime
 import json
-import time
+import urllib.request
+from time import sleep
 
-from pprint import pprint
+import geocoder
+from orbit_predictor import locations
+from orbit_predictor.coordinate_systems import ecef_to_llh
+from orbit_predictor.sources import get_predictor_from_tle_lines
 
+g = geocoder.ip('me')
+lat, lon = g.latlng
+me = locations.Location('me', lat, lon, 0)
 
-# https://wheretheiss.at/w/developer
-url = "https://api.wheretheiss.at/v1/satellites/25544"
+url = "https://www.celestrak.com/NORAD/elements/stations.txt"
 response = urllib.request.urlopen(url)
-result = json.loads(response.read())
 
-# Request the ISS location.
-lat = float(result["latitude"])
-lon = float(result["longitude"])
-alt = float(result['altitude'])
+content = [line.decode('ascii') for line in response.readlines()]
 
-pprint(result)
+for i, line in enumerate(content):
+    print(line)
+    if 'ISS (ZARYA)' in line:
+        line1 = content[i+1]
+        line2 = content[i+2]
+        break
 
-print("\n\n\nISS lat, lon, alt: {:.4f}, {:.4f}, {:.4f} km".format(lat, lon, alt))
-# This must be converted to an alt, az.
-# TODO: Copy code from my TLE_sats.py script?
+TLE_LINES = (line1, line2)
+predictor = get_predictor_from_tle_lines(TLE_LINES)
 
+print("\n\n\nI am at lat, long: {:.3f}, {:.3f}\n".format(lat, lon))
+
+while True:
+    # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
+    now = datetime.datetime.utcnow()
+    ecef_location = locations.Location('ISS', *ecef_to_llh(predictor.get_only_position(now)))
+
+    ### Convert ECEF to alt, az ###
+    az, elev = me.get_azimuth_elev_deg(ecef_location)
+
+    print("  ISS alt, elev: {:6.2f}, {:6.2f}".format(az, elev), end='\r')
+
+    sleep(1)
