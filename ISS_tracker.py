@@ -42,17 +42,18 @@ azimuth_actuator = stepMotors(stepper_pins)
 DELAY = 1 # seconds
 
 
-now = datetime.datetime.utcnow()
+time = datetime.datetime.utcnow()
 dt = datetime.timedelta(minutes=1)
 while True:
-    time = now + dt
+    time = time + dt
     # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
     ecef_location = locations.Location('ISS', *ecef_to_llh(predictor.get_only_position(time)))
 
     ### Convert ECEF to alt, az ###
     az, elev = me.get_azimuth_elev_deg(ecef_location)
 
-    print("  ISS alt, elev: {:6.2f}, {:6.2f}".format(az, elev), end='\r')
+    timestr =
+    print("  ISS alt, elev at {}: {:6.2f}, {:6.2f}".format(timestr, az, elev), end='\r')
 
     elevation_actuator.angle = elev
     azimuth_actuator.to_angle(az)
