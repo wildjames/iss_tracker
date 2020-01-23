@@ -124,14 +124,9 @@ class stepMotors:
             self.stepCounter += self.direction
             self.location += self.direction
 
-            if self.stepCounter >= stepCount:
-                self.stepCounter = 0
-
-            if self.stepCounter < 0:
-                self.stepCounter = stepCount+self.direction
+            self.stepCounter = self.stepCounter % stepCount
 
             dist = abs(self.angle - self._desired_angle)
-
 
     def run(self):
         stepCount=len(self.seq)
