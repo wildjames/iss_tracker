@@ -56,6 +56,6 @@ while True:
     print("  ISS alt, elev at {}: {:6.2f}, {:6.2f}".format(timestr, az, elev), end='\r')
 
     elevation_actuator.angle = elev
-    azimuth_actuator.to_angle(az)
+    azimuth_actuator.to_angle(az, block=True)
 
     sleep(DELAY)
