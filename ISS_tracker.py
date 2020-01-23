@@ -8,6 +8,9 @@ from orbit_predictor import locations
 from orbit_predictor.coordinate_systems import ecef_to_llh
 from orbit_predictor.sources import get_predictor_from_tle_lines
 
+from servo import Servo
+from stepper import stepMotors
+
 g = geocoder.ip('me')
 lat, lon = g.latlng
 me = locations.Location('me', lat, lon, 0)
