@@ -95,7 +95,7 @@ class stepMotors:
         desired_angle = desired_angle % 360
 
         if direction is None:
-            self.direction = +1 if self.angle > desired_angle else -1
+            self.direction = -1 if self.angle > desired_angle else 1
 
         self._desired_angle = desired_angle
 
