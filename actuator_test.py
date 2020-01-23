@@ -24,7 +24,7 @@ try:
             servo_angle = servo.min_angle
 
         print("Moving to {} deg".format(stepper_angle))
-        move.to_angle(stepper_angle)
+        move.to_angle(stepper_angle, block=True)
         servo.angle = servo_angle
 
         time.sleep(DELAY)
