@@ -1,4 +1,6 @@
 '''The gpiozero servo implimentation is shite'''
+import pigpio
+
 
 class Servo():
     def __init__(self, pin, initial_value=0, min_pulse=1e-6, max_pulse=2e-6, frame_width=20e-6):
