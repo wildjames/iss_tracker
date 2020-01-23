@@ -12,13 +12,13 @@ servo = Servo(13)
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 move = stepMotors(stepper_pins)
 
-DELAY = 5 # seconds
+DELAY = 1 # seconds
 
 servo_angle = 0
 stepper_angle = 0
 try:
     while True:
-        stepper_angle += 90
+        stepper_angle += 15
         servo_angle += 15
         if servo_angle >= servo.max_angle:
             servo_angle = servo.min_angle
@@ -30,7 +30,7 @@ try:
         time.sleep(DELAY)
 
 
-        stepper_angle += 90
+        stepper_angle += 15
         servo_angle += 15
         if servo_angle >= servo.max_angle:
             servo_angle = servo.min_angle
