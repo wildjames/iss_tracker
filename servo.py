@@ -3,7 +3,7 @@ import pigpio
 
 
 class Servo():
-    def __init__(self, pin, initial_value=0, min_angle=0, max_angle=180):
+    def __init__(self, pin, initial_value=0, min_angle=0, max_angle=180, min_allowed=None, max_allowed=None):
         '''
         Inputs:
         -----
@@ -21,6 +21,12 @@ class Servo():
         self.pin = pin
         self.min_angle = min_angle
         self.max_angle = max_angle
+        if min_allowed is None or min_allowed < min_angle:
+            min_allowed = min_angle
+        if max_allowed is None or max_allowed > max_angle:
+            max_allowed = max_angle
+        self.min_allowed = min_allowed
+        self.max_allowed = max_allowed
 
         self.value = initial_value
 
@@ -48,7 +54,18 @@ class Servo():
     @angle.setter
     def angle(self, angle):
         '''Angle is in degrees'''
+        if angle < self.min_angle:
+            angle = self.min_angle
+        elif angle > self.max_angle:
+            angle = self.max_angle
+
         val = (angle - self.min_angle)/(self.max_angle - self.min_angle)
+
+        if val < self.min_allowed:
+            val = self.min_allowed
+        elif val > self.max_allowed:
+            val = self.max_allowed
+
         self.value = 1. - val
 
     def close(self):
