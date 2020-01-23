@@ -39,7 +39,7 @@ elevation_actuator = Servo(13, 0, -90, 90, min_allowed=-70)
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 azimuth_actuator = stepMotors(stepper_pins)
 
-DELAY = 0 # seconds
+DELAY = 0.5 # seconds
 
 
 time = datetime.datetime.utcnow()
