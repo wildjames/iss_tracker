@@ -14,21 +14,30 @@ move = stepMotors(stepper_pins)
 
 DELAY = 5 # seconds
 
+servo_angle = 0
 stepper_angle = 0
 try:
     while True:
         stepper_angle += 90
+        servo_angle += 15
+        if servo_angle >= servo.max_angle:
+            servo_angle = servo.min_angle
+
         print("Moving to {} deg".format(stepper_angle))
         move.to_angle(stepper_angle)
-        servo.angle = (stepper_angle % 180) - 90
+        servo.angle = servo_angle
 
         time.sleep(DELAY)
 
 
         stepper_angle += 90
+        servo_angle += 15
+        if servo_angle >= servo.max_angle:
+            servo_angle = servo.min_angle
+
         print("Moving to {} deg".format(stepper_angle))
         move.to_angle(stepper_angle)
-        servo.angle = stepper_angle % 180
+        servo.angle = servo_angle
 
         time.sleep(DELAY)
 
