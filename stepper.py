@@ -89,7 +89,7 @@ class stepMotors:
         self.thread.daemon = True
         self.thread.start()
 
-    def to_angle(self, desired_angle, direction=None):
+    def to_angle(self, desired_angle, direction=None, block=False):
         '''Desired angle is in degrees'''
         desired_angle = desired_angle % 360
 
@@ -100,7 +100,7 @@ class stepMotors:
 
         self.state = True
         self.thread = threading.Thread(target=self._move_to, args=())
-        self.thread.daemon = True
+        self.thread.daemon = not block
         self.thread.start()
 
     def _move_to(self):
