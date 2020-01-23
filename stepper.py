@@ -23,6 +23,7 @@ class stepMotors:
             [1,1,1,0],
             [0,1,1,0],
         ]
+        self.seq = self.seq[::-1]
         self.stepCounter = 0
 
         self.state = False
@@ -39,7 +40,7 @@ class stepMotors:
         return self._location
     @location.setter
     def location(self, loc):
-        self._location = -loc % self.STEPS_PER_REV
+        self._location = loc % self.STEPS_PER_REV
 
     @property
     def angle(self):
