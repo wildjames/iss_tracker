@@ -98,9 +98,6 @@ class stepMotors:
 
         self._desired_angle = desired_angle
 
-        if self.state:
-            self.cleanup()
-
         self.state = True
         self.thread = threading.Thread(target=self._move_to, args=())
         self.thread.daemon = True
