@@ -99,9 +99,12 @@ class stepMotors:
         self._desired_angle = desired_angle
 
         self.state = True
-        self.thread = threading.Thread(target=self._move_to, args=())
-        self.thread.daemon = not block
-        self.thread.start()
+        if block:
+            self._move_to()
+        else:
+            self.thread = threading.Thread(target=self._move_to, args=())
+            self.thread.daemon = True
+            self.thread.start()
 
     def _move_to(self):
         stepCount = len(self.seq)
