@@ -72,7 +72,6 @@ class stepMotors:
             self.cleanup()
 
         self.direction = 1
-        self.stepCounter = 0
 
         self.state = True
         self.thread = threading.Thread(target=self.run, args=())
@@ -84,7 +83,6 @@ class stepMotors:
             self.cleanup()
 
         self.direction = -1
-        self.stepCounter = 0
         self.state = True
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True
@@ -96,8 +94,13 @@ class stepMotors:
 
         if direction is None:
             dist = self.angle - desired_angle
+
+            # Phase shift into correct space
             while dist >= 180:
                 dist -= 360
+            while dist <= -180:
+                dist += 180
+
             self.direction = -1 if dist > 0 else +1
 
         self._desired_angle = desired_angle
@@ -105,7 +108,6 @@ class stepMotors:
         if self.state:
             self.cleanup()
 
-        self.stepCounter = 0
         self.state = True
         self.thread = threading.Thread(target=self._move_to, args=())
         self.thread.daemon = True
