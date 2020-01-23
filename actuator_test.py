@@ -20,7 +20,7 @@ try:
         stepper_angle += 90
         print("Moving to {} deg".format(stepper_angle))
         move.to_angle(stepper_angle)
-        servo.value = stepper_angle % 180
+        servo.angle = stepper_angle % 180
 
         time.sleep(DELAY)
 
@@ -28,7 +28,7 @@ try:
         stepper_angle += 90
         print("Moving to {} deg".format(stepper_angle))
         move.to_angle(stepper_angle)
-        servo.value = stepper_angle % 180
+        servo.angle = stepper_angle % 180
 
         time.sleep(DELAY)
 
