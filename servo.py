@@ -16,6 +16,8 @@ class Servo():
           - frame_width, float
             - Width of a frame. 1/fequency, in microseconds
             '''
+        self._pi = pigpio.pi()
+
         self.pin = pin
         self.min_pulse = min_pulse
         self.max_pulse = max_pulse
@@ -23,7 +25,6 @@ class Servo():
 
         self.value = initial_value
 
-        self._pi = pigpio.pi()
 
     @property
     def value(self):
