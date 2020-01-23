@@ -39,7 +39,7 @@ class stepMotors:
         return self._location
     @location.setter
     def location(self, loc):
-        self._location = loc % self.STEPS_PER_REV
+        self._location = (self.STEPS_PER_REV - loc) % self.STEPS_PER_REV
 
     @property
     def angle(self):
@@ -72,7 +72,7 @@ class stepMotors:
         if self.state:
             self.cleanup()
 
-        self.direction = -1
+        self.direction = +1
 
         self.state = True
         self.thread = threading.Thread(target=self.run, args=())
@@ -83,7 +83,7 @@ class stepMotors:
         if self.state:
             self.cleanup()
 
-        self.direction = 1
+        self.direction = -1
         self.state = True
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True
