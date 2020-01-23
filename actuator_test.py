@@ -30,7 +30,7 @@ try:
         time.sleep(DELAY)
 
 
-        stepper_angle += 15
+        stepper_angle += 0
         servo_angle += 15
         if servo_angle >= servo.max_angle:
             servo_angle = servo.min_angle
