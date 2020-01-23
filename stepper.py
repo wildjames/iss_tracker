@@ -39,7 +39,7 @@ class stepMotors:
         return self._location
     @location.setter
     def location(self, loc):
-        self._location = (self.STEPS_PER_REV - loc) % self.STEPS_PER_REV
+        self._location = -loc % self.STEPS_PER_REV
 
     @property
     def angle(self):
