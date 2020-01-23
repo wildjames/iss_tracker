@@ -31,15 +31,15 @@ class stepMotors:
         self.STEPS_PER_REV = 4096.
         self.location = 0.0
 
-        # How close can a step get. Add 50% for numerical ease
-        self.TOL = 1.5 * 360./self.STEPS_PER_REV
+        # How close can a step get. Add 20% for numerical ease
+        self.TOL = 1.2 * 360./self.STEPS_PER_REV
 
     @property
     def location(self):
         return self._location
     @location.setter
     def location(self, loc):
-        self._location = loc % self.STEPS_PER_REV
+        self._location = -loc % self.STEPS_PER_REV
 
     @property
     def angle(self):
