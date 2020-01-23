@@ -23,6 +23,7 @@ class stepMotors:
             [1,1,1,0],
             [0,1,1,0],
         ]
+        self.stepCounter = 0
 
         self.state = False
 
