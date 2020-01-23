@@ -21,10 +21,12 @@ class Servo():
         self.pin = pin
         self.min_angle = min_angle
         self.max_angle = max_angle
+
         if min_allowed is None or min_allowed < min_angle:
             min_allowed = min_angle
         if max_allowed is None or max_allowed > max_angle:
             max_allowed = max_angle
+
         self.min_allowed = min_allowed
         self.max_allowed = max_allowed
 
@@ -59,12 +61,12 @@ class Servo():
         elif angle > self.max_angle:
             angle = self.max_angle
 
-        val = (angle - self.min_angle)/(self.max_angle - self.min_angle)
+        if angle < self.min_allowed:
+            angle = self.min_allowed
+        elif angle > self.max_allowed:
+            angle = self.max_allowed
 
-        if val < self.min_allowed:
-            val = self.min_allowed
-        elif val > self.max_allowed:
-            val = self.max_allowed
+        val = (angle - self.min_angle)/(self.max_angle - self.min_angle)
 
         self.value = 1. - val
 
