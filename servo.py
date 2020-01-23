@@ -49,7 +49,7 @@ class Servo():
     def angle(self, angle):
         '''Angle is in degrees'''
         val = (angle - self.min_angle)/(self.max_angle - self.min_angle)
-        self.value = val
+        self.value = 1. - val
 
     def close(self):
         self._pi.set_servo_pulsewidth(17, 0)

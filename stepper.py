@@ -72,7 +72,7 @@ class stepMotors:
         if self.state:
             self.cleanup()
 
-        self.direction = 1
+        self.direction = -1
 
         self.state = True
         self.thread = threading.Thread(target=self.run, args=())
@@ -83,7 +83,7 @@ class stepMotors:
         if self.state:
             self.cleanup()
 
-        self.direction = -1
+        self.direction = 1
         self.state = True
         self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True
