@@ -39,7 +39,7 @@ elevation_actuator = Servo(13, 0, min_angle=-87, max_angle=108, min_allowed=-45)
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 azimuth_actuator = stepMotors(stepper_pins)
 
-DELAY = 30 # seconds
+DELAY = 1 # seconds
 
 
 time = datetime.datetime.utcnow()
@@ -61,7 +61,10 @@ try:
         elevation_actuator.angle = elev
         azimuth_actuator.to_angle(az, block=True)
 
-        sleep(DELAY)
+        stop = time + datetime.timedelta(seconds=DELAY)
+        while datetime.datetime.utcnow() < stop:
+            time.sleep(0.1)
+
 except:
     azimuth_actuator.close()
     elevation_actuator.close()
