@@ -198,7 +198,7 @@ class stepMotors:
         self.stepCounter += direction
         self.location += direction
 
-        self.stepCounter = self.stepCounter % stepcount
+        self.stepCounter = self.stepCounter % stepCount
 
     def run(self):
         while self.state:
