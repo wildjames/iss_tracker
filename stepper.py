@@ -6,30 +6,62 @@ from pprint import pprint
 
 
 class stepMotors:
-    def __init__(self, pins=[6,13,19,26]):
+    def __init__(self, pins=[6,13,19,26], sequence=None, frequency=1000, steps_per_revolution=4096):
+        '''
+        Inputs:
+        -----
+          - pins, list[int]
+            - List of pins the coils are attached to.
+          - sequence, list[bool]
+            - The coil sequence order. Get this from the motor datasheet!
+          - frequency, float
+            - How fast the motor can be driven, steps/second
+
+        Useage:
+        ... step = stepMotors(pins, seq, freq)
+        ... print(step.angle)
+        >>> 0.0
+        ... step.angle = 180
+        ... print(step.angle)
+        >>> 180.0
+        ... step.forward()
+        >>> Motor begins spinning
+        ... step.pause()
+        >>> Motor stops but stays torqued
+        ... step.stop()
+        >>> Motor stops and torque is released
+        ... step.step(1)
+        >>> Motor moves one step clockwise
+        ... step.cleanup()
+        >>> Motor is shutdown gracefully.
+
+        '''
         self.motorBase = []
         self.pins = pins
         for pin in self.pins:
             self.motorBase.append(OutputDevice(pin))
 
         # The coils need to be toggled in this order to move clockwise 1 step
-        self.seq = [
-            [0,1,1,1],
-            [0,0,1,1],
-            [1,0,1,1],
-            [1,0,0,1],
-            [1,1,0,1],
-            [1,1,0,0],
-            [1,1,1,0],
-            [0,1,1,0],
-        ]
-        self.seq = self.seq[::-1]
+        if sequence is None:
+            self.seq = [
+                [0,1,1,0],
+                [1,1,1,0],
+                [1,1,0,0],
+                [1,1,0,1],
+                [1,0,0,1],
+                [1,0,1,1],
+                [0,0,1,1],
+                [0,1,1,1],
+            ]
+        # This counter tracks where we are in the above sequence
         self.stepCounter = 0
 
+        # True when the motor is running
         self.state = False
 
-        self.WAIT_TIME = 1/1000.
-        self.STEPS_PER_REV = 4096.
+
+        self.WAIT_TIME = 1/frequency
+        self.STEPS_PER_REV = steps_per_revolution
         self.location = 0.0
 
         # How close can a step get. Add 20% for numerical ease
@@ -51,6 +83,7 @@ class stepMotors:
         self.to_angle(angle)
 
     def cleanup(self):
+        '''Grafefully shut down the motor, releasing the pins'''
         if self.thread.is_alive():
             self.state = False
             self.thread.join()
@@ -73,6 +106,7 @@ class stepMotors:
         return True
 
     def forward(self):
+        '''Move forwards continuously. Non-blocking'''
         if self.state:
             self.cleanup()
 
@@ -84,6 +118,7 @@ class stepMotors:
         self.thread.start()
 
     def backward(self):
+        '''Move backwards continuously. Non-blocking'''
         if self.state:
             self.cleanup()
 
@@ -94,79 +129,77 @@ class stepMotors:
         self.thread.start()
 
     def to_angle(self, desired_angle, direction=None, block=False):
-        '''Desired angle is in degrees'''
+        '''
+        Inputs:
+        -----
+          - desired_angle, float
+            - Angle is in degrees
+          - direction, bool
+            - +1 clockwise, -1 counterclockwise
+          - block, bool
+            - If True, stop the script from proceeding until the motor reaches its target
+
+        Moves in the shortest distance, but blocked from
+        crossing 359 -> 0 to prevent wires wrapping'''
         desired_angle = desired_angle % 360
 
         if direction is None:
-            self.direction = -1 if self.angle > desired_angle else 1
+            direction = -1 if self.angle > desired_angle else +1
 
-        self._desired_angle = desired_angle
-
-        self.state = True
         if block:
-            self._move_to()
+            self._move_to(desired_angle, direction)
         else:
-            self.thread = threading.Thread(target=self._move_to, args=())
+            self.thread = threading.Thread(
+                target=self._move_to,
+                args=(desired_angle, direction)
+            )
             self.thread.daemon = True
             self.thread.start()
 
-    def _move_to(self):
+    def _move_to(self, desired_angle, direction):
         stepCount = len(self.seq)
 
-        dist = abs(self.angle - self._desired_angle)
+        dist = abs(self.angle - desired_angle)
+        self.state = True
         while self.state and dist > self.TOL:
-            for pin in range(0,4):
-                xPin=self.motorBase[pin]
-
-                if self.seq[self.stepCounter][pin]!=0:
-                    xPin.on()
-                else:
-                    xPin.off()
-
-            time.sleep(self.WAIT_TIME)
-
-            self.stepCounter += self.direction
-            self.location += self.direction
-
-            self.stepCounter = self.stepCounter % stepCount
-
-            dist = abs(self.angle - self._desired_angle)
+            self.step(direction)
+            dist = abs(self.angle - desired_angle)
 
     def home(self, switch):
+        '''Homes the motor. Rotates until limit switch is hit by
+        e.g., a cam on the shaft. Then reverses 5 degrees and slowly approaches it again.'''
         wait = self.WAIT_TIME
 
         while switch.active_state is False:
-            self.angle += 360. / self.STEPS_PER_REV
+            self.step(1)
         # The switch is now pushed. Back off a few degrees
         self.angle -= 5
 
         # Slowly approach the limit
-        self.WAIT_TIME = wait * 10
         while switch.active_state is False:
-            self.angle += 360. / self.STEPS_PER_REV
+            self.step(1)
+            time.sleep(self.WAIT_TIME*100)
+        self.location = 0
 
-        # Reset the move rate
-        self.WAIT_TIME = wait
+    def step(self, direction):
+        '''Direction: +1 for clockwise, -1 counter clockwise'''
+        stepCount=len(self.seq)
+        for pin in range(0,4):
+            xPin=self.motorBase[pin]
+
+            if self.seq[self.stepCounter][pin]!=0:
+                xPin.on()
+            else:
+                xPin.off()
+
+        # Wait for the shaft to physically move
+        time.sleep(self.WAIT_TIME)
+
+        self.stepCounter += direction
+        self.location += direction
+
+        self.stepCounter = self.stepCounter % stepcount
 
     def run(self):
-        stepCount=len(self.seq)
-
         while self.state:
-            for pin in range(0,4):
-                xPin=self.motorBase[pin]
-
-                if self.seq[self.stepCounter][pin]!=0:
-                    xPin.on()
-                else:
-                    xPin.off()
-
-            time.sleep(self.WAIT_TIME)
-
-            self.stepCounter += self.direction
-            self.location += self.direction
-
-            if self.stepCounter >= stepCount:
-                self.stepCounter = 0
-
-            if self.stepCounter < 0:
-                self.stepCounter = stepCount+self.direction
+            self.step(self.direction)
