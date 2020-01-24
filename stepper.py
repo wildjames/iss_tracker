@@ -170,13 +170,13 @@ class stepMotors:
         e.g., a cam on the shaft. Then reverses 5 degrees and slowly approaches it again.'''
         wait = self.WAIT_TIME
 
-        while switch.active_state is False:
+        while switch.is_pressed is False:
             self.step(1)
         # The switch is now pushed. Back off a few degrees
         self.angle -= 5
 
         # Slowly approach the limit
-        while switch.active_state is False:
+        while switch.is_pressed is False:
             self.step(1)
             time.sleep(self.WAIT_TIME*100)
         self.location = 0
