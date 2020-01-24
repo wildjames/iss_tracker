@@ -44,20 +44,24 @@ DELAY = 30 # seconds
 
 time = datetime.datetime.utcnow()
 dt = datetime.timedelta(minutes=1)
-while True:
-    # time = time + dt
+try:
+    while True:
+        # time = time + dt
 
-    time = datetime.datetime.utcnow()
-    # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
-    ecef_location = locations.Location('ISS', *ecef_to_llh(predictor.get_only_position(time)))
+        time = datetime.datetime.utcnow()
+        # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
+        ecef_location = locations.Location('ISS', *ecef_to_llh(predictor.get_only_position(time)))
 
-    ### Convert ECEF to alt, az ###
-    az, elev = me.get_azimuth_elev_deg(ecef_location)
+        ### Convert ECEF to alt, az ###
+        az, elev = me.get_azimuth_elev_deg(ecef_location)
 
-    timestr = time.strftime("%H:%M")
-    print("  ISS alt, elev at {}: {:6.2f}, {:6.2f}".format(timestr, az, elev), end='\r')
+        timestr = time.strftime("%H:%M")
+        print("  ISS alt, elev at {}: {:6.2f}, {:6.2f}".format(timestr, az, elev), end='\r')
 
-    elevation_actuator.angle = elev
-    azimuth_actuator.to_angle(az, block=True)
+        elevation_actuator.angle = elev
+        azimuth_actuator.to_angle(az, block=True)
 
-    sleep(DELAY)
+        sleep(DELAY)
+except:
+    azimuth_actuator.close()
+    elevation_actuator.close()

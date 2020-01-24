@@ -71,5 +71,4 @@ class Servo():
         self.value = 1. - val
 
     def close(self):
-        self._pi.set_servo_pulsewidth(17, 0)
-        self._pi.close()
+        self._pi.set_servo_pulsewidth(self.pin, 0)
