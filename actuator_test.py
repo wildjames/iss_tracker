@@ -2,6 +2,7 @@ import itertools
 import time
 from time import sleep
 
+from gpiozero import Button, DigitalOutputDevice
 from numpy.random import randint
 
 from servo import Servo
@@ -19,7 +20,9 @@ DELAY = 1 # seconds
 switch_rail = DigitalOutputDevice(0)
 switch = Button(switch_pin)
 
+print("Homing the stepper motor...  ", end='')
 move.home(switch)
+print("Done!")
 
 servo_angle = 0
 stepper_angle = 0
