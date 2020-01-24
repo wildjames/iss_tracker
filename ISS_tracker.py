@@ -57,7 +57,7 @@ if __name__ in "__main__":
     switch = Button(switch_pin)
 
     print("Homing the stepper motor...  ", end='')
-    move.home(switch)
+    azimuth_actuator.home(switch)
     print("Done!")
 
 
