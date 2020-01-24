@@ -10,9 +10,16 @@ from stepper import stepMotors
 servo = Servo(13)
 
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
+switch_pin = 11
 move = stepMotors(stepper_pins)
 
 DELAY = 1 # seconds
+
+# Test the homing of the stepper
+switch_rail = DigitalOutputDevice(0)
+switch = Button(switch_pin)
+
+move.home(switch)
 
 servo_angle = 0
 stepper_angle = 0
