@@ -3,7 +3,7 @@ import pigpio
 
 
 class Servo():
-    def __init__(self, pin, initial_value=0, min_angle=0, max_angle=180, min_allowed=None, max_allowed=None):
+    def __init__(self, pin, initial_angle=0, min_angle=0, max_angle=180, min_allowed=None, max_allowed=None):
         '''
         Inputs:
         -----
@@ -35,7 +35,8 @@ class Servo():
         self.min_allowed = min_allowed
         self.max_allowed = max_allowed
 
-        self.value = initial_value
+        self._value = 0
+        self.angle = initial_angle
 
     @property
     def value(self):
