@@ -60,7 +60,7 @@ class stepMotors:
         self.state = False
 
 
-        self.WAIT_TIME = 1/frequency
+        self.WAIT_TIME = 1.0/float(frequency)
         self.STEPS_PER_REV = steps_per_revolution
         self.location = 0.0
 
