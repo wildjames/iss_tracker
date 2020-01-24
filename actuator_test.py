@@ -18,6 +18,7 @@ DELAY = 1 # seconds
 
 # Test the homing of the stepper
 switch_rail = DigitalOutputDevice(0)
+switch_rail.on()
 switch = Button(switch_pin)
 
 print("Homing the stepper motor...  ", end='')
