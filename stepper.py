@@ -163,7 +163,6 @@ class stepMotors:
         while self.state and dist > self.TOL:
             self.step(direction)
             dist = abs(self.angle - desired_angle)
-            print(dist)
 
     def home(self, switch):
         '''Homes the motor. Rotates until limit switch is hit by

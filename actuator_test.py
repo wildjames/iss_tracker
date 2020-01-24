@@ -29,7 +29,7 @@ servo_angle = 0
 stepper_angle = 0
 try:
     while True:
-        stepper_angle += 15
+        stepper_angle += 45
         servo_angle += 15
         if servo_angle >= servo.max_angle:
             servo_angle = servo.min_angle
