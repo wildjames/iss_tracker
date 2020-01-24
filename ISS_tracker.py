@@ -8,6 +8,7 @@ from orbit_predictor import locations
 from orbit_predictor.coordinate_systems import ecef_to_llh
 from orbit_predictor.sources import get_predictor_from_tle_lines
 
+from gpiozero import DigitalOutputDevice, Button
 from servo import Servo
 from stepper import stepMotors
 
