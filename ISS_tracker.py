@@ -49,6 +49,16 @@ if __name__ in "__main__":
     azimuth_actuator = stepMotors(stepper_pins)
     print("Done!")
 
+    # Test the homing of the stepper
+    switch_rail = DigitalOutputDevice(0)
+    switch_rail.on()
+    switch = Button(switch_pin)
+
+    print("Homing the stepper motor...  ", end='')
+    move.home(switch)
+    print("Done!")
+
+
     # Refresh rate, sec
     DELAY = 1
 

@@ -173,14 +173,14 @@ class stepMotors:
             self.step(1)
         print("Hit the switch! Backing off 45 degrees...")
         # The switch is now pushed. Back off a few degrees
-        for _ in range(5 * int(self.STEPS_PER_REV/360.)):
+        for _ in range(30 * int(self.STEPS_PER_REV/360.)):
             self.step(-1)
 
         print("Approaching switch at 1/2 the speed...")
         # Slowly approach the limit
         while not switch.is_pressed:
             self.step(1)
-            time.sleep(self.WAIT_TIME*2)
+            time.sleep(self.WAIT_TIME*10)
         self.location = 0
         print("Hit the switch! Location is now {}".format(self.location))
 
