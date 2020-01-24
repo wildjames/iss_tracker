@@ -88,7 +88,8 @@ if __name__ in "__main__":
             while datetime.datetime.utcnow() < stop:
                 sleep(0.1)
 
-            if time + datetime.timedelta(days=1) > last_update:
+            next_update = time + datetime.timedelta(days=1)
+            if next_update < last_update:
                 timestr = time.strftime("%Y, %d, %m at %H:%M")
                 print("\nUpdating predictor for the ISS (time is {})...  ".format(timestr), end='')
                 predictor = get_satellite()
