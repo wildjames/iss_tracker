@@ -34,6 +34,7 @@ def get_satellite(satname='ISS (ZARYA)'):
 if __name__ in "__main__":
     stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
     servo_pin = 13
+    switch_pin = 11
 
     print("Getting predictor for the ISS...  ", end='')
     predictor = get_satellite()
