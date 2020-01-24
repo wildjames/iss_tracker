@@ -8,7 +8,7 @@ from numpy.random import randint
 from servo import Servo
 from stepper import stepMotors
 
-servo = Servo(13)
+servo = Servo(13, 0, min_angle=-87, max_angle=108, min_allowed=-45)
 
 stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
 switch_pin = 11
