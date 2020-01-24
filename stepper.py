@@ -183,6 +183,7 @@ class stepMotors:
             time.sleep(self.WAIT_TIME*10)
         self.location = 0
         print("Hit the switch! Location is now {}".format(self.location))
+        time.sleep(10)
 
     def step(self, direction):
         '''Direction: +1 for clockwise, -1 counter clockwise'''
