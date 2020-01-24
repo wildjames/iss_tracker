@@ -15,7 +15,12 @@ class Servo():
             - Minimum angle reachable by the servo, in degrees
           - max_angle, float
             - as above
-            '''
+          - min_allowed, float
+            - Minimum allowed angle before we block it from moving further
+          - max_allowed, float
+            - As above
+
+        '''
         self._pi = pigpio.pi()
 
         self.pin = pin
@@ -31,7 +36,6 @@ class Servo():
         self.max_allowed = max_allowed
 
         self.value = initial_value
-
 
     @property
     def value(self):
