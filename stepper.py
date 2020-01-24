@@ -95,8 +95,7 @@ class stepMotors:
 
     def stop(self):
         '''Kill all the coils, i.e. no electrically supplied torque (gearbox will still resist)'''
-        if self.state:
-            self.cleanup()
+        self.cleanup()
 
     def pause(self):
         '''Don't move the axel, but keep it torqued'''
@@ -164,6 +163,7 @@ class stepMotors:
         while self.state and dist > self.TOL:
             self.step(direction)
             dist = abs(self.angle - desired_angle)
+            print(dist)
 
     def home(self, switch):
         '''Homes the motor. Rotates until limit switch is hit by
@@ -173,7 +173,8 @@ class stepMotors:
         while not switch.is_pressed:
             self.step(1)
         # The switch is now pushed. Back off a few degrees
-        self.angle -= 5
+        for _ in range(5 * (self.STEPS_PER_REV/360.)):
+            self.step(-1)
 
         # Slowly approach the limit
         while not switch.is_pressed:
