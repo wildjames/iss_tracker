@@ -63,7 +63,7 @@ try:
 
         stop = time + datetime.timedelta(seconds=DELAY)
         while datetime.datetime.utcnow() < stop:
-            time.sleep(0.1)
+            sleep(0.1)
 
 except:
     azimuth_actuator.close()
