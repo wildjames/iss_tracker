@@ -46,6 +46,9 @@ class stepMotors:
     def angle(self):
         a = self.location * (360./self.STEPS_PER_REV)
         return a
+    @angle.setter
+    def angle(self, angle):
+        self.to_angle(angle)
 
     def cleanup(self):
         if self.thread.is_alive():
@@ -128,6 +131,22 @@ class stepMotors:
             self.stepCounter = self.stepCounter % stepCount
 
             dist = abs(self.angle - self._desired_angle)
+
+    def home(self, switch):
+        wait = self.WAIT_TIME
+
+        while switch.active_state is False:
+            self.angle += 360. / self.STEPS_PER_REV
+        # The switch is now pushed. Back off a few degrees
+        self.angle -= 5
+
+        # Slowly approach the limit
+        self.WAIT_TIME = wait * 10
+        while switch.active_state is False:
+            self.angle += 360. / self.STEPS_PER_REV
+
+        # Reset the move rate
+        self.WAIT_TIME = wait
 
     def run(self):
         stepCount=len(self.seq)
