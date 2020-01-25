@@ -94,7 +94,7 @@ if __name__ in "__main__":
         cycle_button_pin,
         bounce_time=0.01
     )
-    cycle_button.when_activated(cycle_station)
+    cycle_button.when_pressed = cycle_station
     print("Done!")
 
 
