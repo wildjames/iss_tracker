@@ -30,14 +30,41 @@ def get_satellite(satname='ISS (ZARYA)'):
 
     return predictor
 
+# I should do this with a class and an iterator rather than a global call, but fuck it
+def cycle_station():
+    global station_names
+    global tracking
+    global predictor
+
+    current_index = station_names.index(tracking)
+    current_index += 1
+    current_index = current_index % len(station_names)
+
+    # Set the stuff
+    tracking = station_names[current_index]
+    predictor = get_satellite(tracking)
+
 
 if __name__ in "__main__":
     stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
     servo_pin = 13
     switch_pin = 11
+    cycle_button_pin = 12
+
+    # Get a list of stations
+    url = "https://www.celestrak.com/NORAD/elements/stations.txt"
+    response = urllib.request.urlopen(url)
+    content = [line.decode('ascii') for line in response.readlines()]
+    station_names = content[::3]
+
+    # Start with the ISS
+    tracking = station_names[0]
+    for station in station_names:
+        if "ISS (ZARYA)" in station:
+            tracking = station
 
     print("Getting predictor for the ISS...  ", end='')
-    predictor = get_satellite()
+    predictor = get_satellite(tracking)
     last_update = datetime.datetime.utcnow()
     print("Done!")
 
@@ -60,6 +87,11 @@ if __name__ in "__main__":
     azimuth_actuator.home(switch)
     print("Done!")
 
+    print("Setting up the cycler pin...  ", end='')
+    cycle_button = Button(cycle_button_pin)
+    cycle_button.when_activated(cycle_station)
+    print("Done!")
+
 
     # Refresh rate, sec
     DELAY = 1
@@ -72,7 +104,7 @@ if __name__ in "__main__":
 
             time = datetime.datetime.utcnow()
             # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
-            ecef_location = locations.Location('ISS', *ecef_to_llh(predictor.get_only_position(time)))
+            ecef_location = locations.Location('', *ecef_to_llh(predictor.get_only_position(time)))
 
             ### Convert ECEF to alt, az ###
             az, elev = me.get_azimuth_elev_deg(ecef_location)
@@ -91,8 +123,8 @@ if __name__ in "__main__":
             next_update = time + datetime.timedelta(days=1)
             if next_update < last_update:
                 timestr = time.strftime("%Y, %d, %m at %H:%M")
-                print("\nUpdating predictor for the ISS (time is {})...  ".format(timestr), end='')
-                predictor = get_satellite()
+                print("\nUpdating predictor for {} (time is {})...  ".format(tracking, timestr), end='')
+                predictor = get_satellite(tracking)
                 last_update = datetime.datetime.utcnow()
                 print("Done!")
 
