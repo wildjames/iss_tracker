@@ -56,7 +56,10 @@ class stepMotors:
 
         # True when the motor is running
         self.state = False
-
+        # For proper cleanup
+        self.thread = threading.Thread(self.run)
+        self.thread.daemon = True
+        self.thread.start()
 
         self.WAIT_TIME = 1.0/float(frequency)
         self.STEPS_PER_REV = steps_per_revolution
