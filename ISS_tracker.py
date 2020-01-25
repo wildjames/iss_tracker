@@ -92,8 +92,6 @@ if __name__ in "__main__":
     print("Setting up the cycler pin...  ", end='')
     cycle_button = Button(
         cycle_button_pin,
-        active_state=False,
-        pull_up=False,
         bounce_time=0.01
     )
     cycle_button.when_activated(cycle_station)
