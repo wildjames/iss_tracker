@@ -57,7 +57,7 @@ if __name__ in "__main__":
     url = "https://www.celestrak.com/NORAD/elements/stations.txt"
     response = urllib.request.urlopen(url)
     content = [line.decode('ascii') for line in response.readlines()]
-    station_names = content[::3]
+    station_names = [name.strip() for name in content[::3]]
 
     # Start with the ISS
     tracking = station_names[0]
