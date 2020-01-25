@@ -19,7 +19,6 @@ def get_satellite(satname='ISS (ZARYA)'):
     content = [line.decode('ascii') for line in response.readlines()]
 
     for i, line in enumerate(content):
-        print(line)
         if satname in line:
             line1 = content[i+1]
             line2 = content[i+2]
@@ -42,7 +41,7 @@ def cycle_station():
 
     # Set the stuff
     tracking = station_names[current_index]
-    print("\n  Tracking {}".format(tracking))
+    print("\n\n  Tracking {}".format(tracking))
     predictor = get_satellite(tracking)
 
 
