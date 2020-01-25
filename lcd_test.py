@@ -22,9 +22,12 @@ lcd = LCD.Adafruit_CharLCD(
     rs, en,
     d4, d5, d6, d7,
     lcd_columns, lcd_rows,
-    A)
+    A
+)
 
 
-lcd.display = True
+print("Sending hello...")
+lcd.set_backlight(1)
 lcd.message("Hello\nWorld!!")
 time.sleep(10)
+
