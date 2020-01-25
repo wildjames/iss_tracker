@@ -35,6 +35,9 @@ def get_satellite(index, station_names, satlist):
     TLE_LINES = (line1, line2)
     predictor = get_predictor_from_tle_lines(TLE_LINES)
 
+    lcd.set_cursor(0,0)
+    lcd.message("{: <16s}".format(station_names[index]))
+
     return predictor, station_names[index]
 
 # I should do this with a class and an iterator rather than a global call, but fuck it
@@ -51,8 +54,6 @@ def cycle_station():
 
     # Set the stuff
     predictor, tracking = get_satellite(current_index, station_names, satlist)
-    lcd.set_cursor(0,0)
-    lcd.message("{: <16s}".format(tracking))
 
 
 if __name__ in "__main__":
