@@ -115,7 +115,7 @@ if __name__ in "__main__":
             az, elev = me.get_azimuth_elev_deg(ecef_location)
 
             timestr = time.strftime("%H:%M")
-            print("  ISS alt, elev at {}: {:6.2f}, {:6.2f}".format(timestr, az, elev), end='\r')
+            print("  {} alt, elev at {}: {:6.2f}, {:6.2f}".format(tracking, timestr, az, elev), end='\r')
 
             # Move the actuators to the right angles
             elevation_actuator.angle = elev
