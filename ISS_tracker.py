@@ -102,7 +102,7 @@ if __name__ in "__main__":
     lcd.clear()
     lcd.set_cursor(0,0)
     lcd.message("I am at lat, lon\n{:6.2f}, {:6.2f}".format(lat, lon))
-    sleep(10)
+    # sleep(10)
 
     # Set up actuators
     elevation_actuator = Servo(servo_pin, 0, min_angle=-87, max_angle=108, min_allowed=-80)
