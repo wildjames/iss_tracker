@@ -18,7 +18,7 @@ def get_satlist():
 
     content = [line.decode('ascii') for line in response.readlines()]
 
-    station_names = content[::3]
+    station_names = [name.strip() for name in content[::3]]
     satlist = []
     i = 0
     while i < len(content):
@@ -47,7 +47,7 @@ def cycle_station():
     current_index = current_index % len(station_names)
 
     # Set the stuff
-    tracking = station_names.next()
+    tracking = station_names[current_index]
     print("\n\n  Tracking {}".format(tracking))
     predictor = get_satellite(current_index, station_names, satlist)
 
