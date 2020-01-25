@@ -1,5 +1,4 @@
-import digitalio
-import adafruit_character_lcd.character_lcd as character_lcd
+import Adafruit_CharLCD as LCD
 import time
 
 con = 14
