@@ -11,7 +11,7 @@ d6 = 19
 d7 = 26
 
 
-lcd_columns = 16
+lcd_columns = 14
 lcd_rows = 2
 
 lcd = LCD.Adafruit_CharLCD(
