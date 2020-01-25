@@ -23,5 +23,5 @@ lcd = LCD.Adafruit_CharLCD(
 
 print("Sending hello...")
 lcd.message("Hello\nWorld!!")
-time.sleep(10)
 
+lcd.message("This is a really long string I want to write to the character display")
