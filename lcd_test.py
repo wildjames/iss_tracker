@@ -9,7 +9,7 @@ d5 = 27
 d6 = 22
 d7 = 10
 
-A  = 18
+A  = 12
 
 lcd_columns = 16
 lcd_rows = 2
