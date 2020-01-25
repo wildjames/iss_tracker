@@ -42,6 +42,7 @@ def cycle_station():
 
     # Set the stuff
     tracking = station_names[current_index]
+    print("\n  Tracking {}".format(tracking))
     predictor = get_satellite(tracking)
 
 
