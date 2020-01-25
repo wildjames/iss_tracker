@@ -134,5 +134,6 @@ if __name__ in "__main__":
                     pass
 
     except:
+        print("\n\nInterrupt detected! Stopping")
         azimuth_actuator.cleanup()
         elevation_actuator.close()
