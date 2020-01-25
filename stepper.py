@@ -182,6 +182,7 @@ class stepMotors:
             self.step(1)
             time.sleep(self.WAIT_TIME*10)
         self.location = 0
+        print("Stepper at home location!")
 
 
     def step(self, direction):

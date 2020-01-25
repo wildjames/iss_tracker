@@ -130,35 +130,35 @@ if __name__ in "__main__":
     # Main loop
     time = datetime.datetime.utcnow()
     dt = datetime.timedelta(minutes=1)
-    try:
-        while True:
+    # try:
+    while True:
 
-            time = datetime.datetime.utcnow()
-            # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
-            ecef_location = locations.Location('station', *ecef_to_llh(predictor.get_only_position(time)))
+        time = datetime.datetime.utcnow()
+        # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
+        ecef_location = locations.Location('station', *ecef_to_llh(predictor.get_only_position(time)))
 
-            ### Convert ECEF to alt, az ###
-            az, elev = me.get_azimuth_elev_deg(ecef_location)
+        ### Convert ECEF to alt, az ###
+        az, elev = me.get_azimuth_elev_deg(ecef_location)
 
-            lcd.set_cursor(0,1)
-            lcd.message("{:6.2f},{:6.2f}".format(tracking+':', az, elev))
+        lcd.set_cursor(0,1)
+        lcd.message("{:6.2f},{:6.2f}".format(tracking+':', az, elev))
 
-            # Move the actuators to the right angles
-            elevation_actuator.angle = elev
-            azimuth_actuator.to_angle(az, block=True)
+        # Move the actuators to the right angles
+        elevation_actuator.angle = elev
+        azimuth_actuator.to_angle(az, block=True)
 
-            stop = time + datetime.timedelta(seconds=DELAY)
-            while datetime.datetime.utcnow() < stop:
-                sleep(0.1)
+        stop = time + datetime.timedelta(seconds=DELAY)
+        while datetime.datetime.utcnow() < stop:
+            sleep(0.1)
 
-            next_update = time + datetime.timedelta(days=1)
-            if next_update < last_update:
-                try:
-                    predictor, tracking = get_satellite(current_index, station_names, satlist)
-                    last_update = datetime.datetime.utcnow()
-                except:
-                    pass
+        next_update = time + datetime.timedelta(days=1)
+        if next_update < last_update:
+            try:
+                predictor, tracking = get_satellite(current_index, station_names, satlist)
+                last_update = datetime.datetime.utcnow()
+            except:
+                pass
 
-    except:
-        azimuth_actuator.cleanup()
-        elevation_actuator.close()
+    # except:
+    #     azimuth_actuator.cleanup()
+    #     elevation_actuator.close()
