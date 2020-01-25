@@ -50,7 +50,7 @@ if __name__ in "__main__":
     servo_pin = 13
     rail_pin
     switch_pin = 11
-    cycle_button_pin = 12
+    cycle_button_pin = 2
 
     # Get a list of stations
     url = "https://www.celestrak.com/NORAD/elements/stations.txt"
