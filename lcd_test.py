@@ -1,22 +1,22 @@
 import Adafruit_CharLCD as LCD
 import time
 
-rs = 14
-rw = 15
-en = 18
+lcd_rs = 14
+lcd_rw = 15
+lcd_en = 18
 
-d4 = 6
-d5 = 13
-d6 = 19
-d7 = 26
+lcd_d4 = 6
+lcd_d5 = 13
+lcd_d6 = 19
+lcd_d7 = 26
 
 
-lcd_columns = 14
+lcd_columns = 16
 lcd_rows = 2
 
 lcd = LCD.Adafruit_CharLCD(
-    rs, en,
-    d4, d5, d6, d7,
+    lcd_rs, lcd_en,
+    lcd_d4, lcd_d5, lcd_d6, lcd_d7,
     lcd_columns, lcd_rows,
 )
 
