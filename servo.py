@@ -73,7 +73,7 @@ class Servo():
 
         val = (angle - self.min_angle)/(self.max_angle - self.min_angle)
 
-        self.value = 1. - val
+        self.value = val
 
     def close(self):
         self._pi.set_servo_pulsewidth(self.pin, 0)
