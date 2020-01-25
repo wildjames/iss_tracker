@@ -1,15 +1,15 @@
 import Adafruit_CharLCD as LCD
 import time
 
-rs = 9
-en = 11
+rs = 14
+rw = 15
+en = 18
 
-d4 = 17
-d5 = 27
-d6 = 22
-d7 = 10
+d4 = 6
+d5 = 13
+d6 = 19
+d7 = 26
 
-A  = 14
 
 lcd_columns = 16
 lcd_rows = 2
@@ -18,12 +18,10 @@ lcd = LCD.Adafruit_CharLCD(
     rs, en,
     d4, d5, d6, d7,
     lcd_columns, lcd_rows,
-    A
 )
 
 
 print("Sending hello...")
-lcd.set_backlight(1)
 lcd.message("Hello\nWorld!!")
 time.sleep(10)
 
