@@ -39,6 +39,7 @@ def get_satellite(index, station_names, satlist):
 def cycle_station():
     global current_index
     global station_names
+    global satlist
     global tracking
     global predictor
 
@@ -48,7 +49,7 @@ def cycle_station():
     # Set the stuff
     tracking = station_names.next()
     print("\n\n  Tracking {}".format(tracking))
-    predictor = get_satellite(current_index)
+    predictor = get_satellite(current_index, station_names, satlist)
 
 
 if __name__ in "__main__":
@@ -63,7 +64,7 @@ if __name__ in "__main__":
     current_index = 0
 
     print("Getting first predictor...  ", end='')
-    predictor, tracking = get_satellite(current_index, satlist)
+    predictor, tracking = get_satellite(current_index, station_names, satlist)
     last_update = datetime.datetime.utcnow()
     print("Done!")
 
@@ -127,7 +128,7 @@ if __name__ in "__main__":
                 try:
                     timestr = time.strftime("%Y, %d, %m at %H:%M")
                     print("\nUpdating predictor for {} (time is {})...  ".format(tracking, timestr), end='')
-                    predictor, tracking = get_satellite(current_index, satlist)
+                    predictor, tracking = get_satellite(current_index, station_names, satlist)
                     last_update = datetime.datetime.utcnow()
                     print("Done!")
                 except:
