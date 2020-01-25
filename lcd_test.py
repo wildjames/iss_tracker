@@ -18,7 +18,7 @@ A   = 21
 lcd_columns = 16
 lcd_rows = 2
 
-lcd = character_lcd.Character_LCD_Mono(
+lcd = LCD.Adafruit_CharLCD(
     rs, en,
     d4, d5, d6, d7,
     lcd_columns, lcd_rows,
