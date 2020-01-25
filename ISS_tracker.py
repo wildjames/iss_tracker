@@ -21,7 +21,7 @@ def get_satlist():
     station_names = content[::3]
     satlist = []
     i = 0
-    while i < len(content)
+    while i < len(content):
         lines = [content[i+1], content[i+2]]
         satlist.append(lines)
         i += 3
