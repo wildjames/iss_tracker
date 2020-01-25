@@ -57,7 +57,7 @@ class stepMotors:
         # True when the motor is running
         self.state = False
         # For proper cleanup
-        self.thread = threading.Thread(self.run)
+        self.thread = threading.Thread(target=self.run, args=())
         self.thread.daemon = True
         self.thread.start()
 
