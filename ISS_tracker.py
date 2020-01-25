@@ -48,6 +48,7 @@ def cycle_station():
 if __name__ in "__main__":
     stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
     servo_pin = 13
+    rail_pin
     switch_pin = 11
     cycle_button_pin = 12
 
@@ -79,7 +80,7 @@ if __name__ in "__main__":
     print("Done!")
 
     # Test the homing of the stepper
-    switch_rail = DigitalOutputDevice(0)
+    switch_rail = DigitalOutputDevice(rail_pin)
     switch_rail.on()
     switch = Button(switch_pin)
 
