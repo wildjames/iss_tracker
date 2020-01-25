@@ -51,7 +51,7 @@ if __name__ in "__main__":
     servo_pin = 13
     rail_pin = 0
     switch_pin = 11
-    cycle_button_pin = 2
+    cycle_button_pin = 12
 
     # Get a list of stations
     url = "https://www.celestrak.com/NORAD/elements/stations.txt"
@@ -93,7 +93,6 @@ if __name__ in "__main__":
     cycle_button = Button(
         cycle_button_pin,
         active_state=False,
-        pull_up=False,
         bounce_time=0.01
     )
     cycle_button.when_activated(cycle_station)
