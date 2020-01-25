@@ -1,19 +1,15 @@
 import Adafruit_CharLCD as LCD
 import time
 
-con = 14
-rs  = 15
-rw  = 18
-en  = 23
-d0  = 24
-d1  = 25
-d2  = 8
-d3  = 7
-d4  = 1
-d5  = 12
-d6  = 16
-d7  = 20
-A   = 21
+rs = 9
+en = 11
+
+d4 = 17
+d5 = 27
+d6 = 22
+d7 = 10
+
+A  = 18
 
 lcd_columns = 16
 lcd_rows = 2
