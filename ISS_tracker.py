@@ -44,13 +44,15 @@ def cycle_station():
     global satlist
     global tracking
     global predictor
+    global lcd
 
     current_index += 1
     current_index = current_index % len(station_names)
 
     # Set the stuff
     predictor, tracking = get_satellite(current_index, station_names, satlist)
-    lcd.message("\n\n  Tracking {}".format(tracking))
+    lcd.set_cursor(0,0)
+    lcd.message("{: <16s}".format(tracking))
 
 
 if __name__ in "__main__":
@@ -100,9 +102,10 @@ if __name__ in "__main__":
     lcd.clear()
     lcd.set_cursor(0,0)
     lcd.message("I am at lat, lon\n{:6.2f}, {:6.2f}".format(lat, lon))
+    sleep(10)
 
     # Set up actuators
-    elevation_actuator = Servo(servo_pin, 0, min_angle=-87, max_angle=108, min_allowed=-45)
+    elevation_actuator = Servo(servo_pin, 0, min_angle=-87, max_angle=108, min_allowed=-80)
     azimuth_actuator = stepMotors(stepper_pins)
 
     # Buttons
@@ -112,6 +115,7 @@ if __name__ in "__main__":
         bounce_time=0.01
     )
     cycle_button.when_pressed = cycle_station
+
 
     # Home the stepper
     lcd.clear()
@@ -136,9 +140,8 @@ if __name__ in "__main__":
             ### Convert ECEF to alt, az ###
             az, elev = me.get_azimuth_elev_deg(ecef_location)
 
-            lcd.clear()
-            lcd.set_cursor(0,0)
-            lcd.message("{:16s}\n{:6.2f},{:6.2f}".format(tracking+':', az, elev))
+            lcd.set_cursor(0,1)
+            lcd.message("{:6.2f},{:6.2f}".format(tracking+':', az, elev))
 
             # Move the actuators to the right angles
             elevation_actuator.angle = elev
