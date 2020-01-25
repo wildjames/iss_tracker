@@ -141,7 +141,7 @@ if __name__ in "__main__":
         az, elev = me.get_azimuth_elev_deg(ecef_location)
 
         lcd.set_cursor(0,1)
-        lcd.message("{:6.2f},{:6.2f}".format(tracking+':', az, elev))
+        lcd.message("{:<6.2f},{:>6.2f}".format(az, elev))
 
         # Move the actuators to the right angles
         elevation_actuator.angle = elev
