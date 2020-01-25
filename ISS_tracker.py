@@ -12,60 +12,58 @@ from gpiozero import DigitalOutputDevice, Button
 from servo import Servo
 from stepper import stepMotors
 
-def get_satellite(satname='ISS (ZARYA)'):
+def get_satlist():
     url = "https://www.celestrak.com/NORAD/elements/stations.txt"
     response = urllib.request.urlopen(url)
 
     content = [line.decode('ascii') for line in response.readlines()]
 
-    for i, line in enumerate(content):
-        if satname in line:
-            line1 = content[i+1]
-            line2 = content[i+2]
-            break
+    station_names = content[::3]
+    satlist = []
+    i = 0
+    while i < len(content)
+        lines = [content[i+1], content[i+2]]
+        satlist.append(lines)
+        i += 3
 
+    return station_names, satlist
+
+def get_satellite(index, station_names, satlist):
+    line1, line2 = satlist[index]
     TLE_LINES = (line1, line2)
     predictor = get_predictor_from_tle_lines(TLE_LINES)
 
-    return predictor
+    return predictor, station_names[index]
 
 # I should do this with a class and an iterator rather than a global call, but fuck it
 def cycle_station():
+    global current_index
     global station_names
     global tracking
     global predictor
 
-    current_index = station_names.index(tracking)
     current_index += 1
     current_index = current_index % len(station_names)
 
     # Set the stuff
-    tracking = station_names[current_index]
+    tracking = station_names.next()
     print("\n\n  Tracking {}".format(tracking))
-    predictor = get_satellite(tracking)
+    predictor = get_satellite(current_index)
 
 
 if __name__ in "__main__":
-    stepper_pins = [17, 27, 22, 10] # Set the gpios being used here, in order
+    # Set the gpios being used here, in order
+    stepper_pins = [17, 27, 22, 10]
     servo_pin = 13
     rail_pin = 0
     switch_pin = 11
     cycle_button_pin = 12
 
-    # Get a list of stations
-    url = "https://www.celestrak.com/NORAD/elements/stations.txt"
-    response = urllib.request.urlopen(url)
-    content = [line.decode('ascii') for line in response.readlines()]
-    station_names = [name.strip() for name in content[::3]]
+    station_names, satlist = get_satlist()
+    current_index = 0
 
-    # Start with the ISS
-    tracking = station_names[0]
-    for station in station_names:
-        if "ISS (ZARYA)" in station:
-            tracking = station
-
-    print("Getting predictor for the ISS...  ", end='')
-    predictor = get_satellite(tracking)
+    print("Getting first predictor...  ", end='')
+    predictor, tracking = get_satellite(current_index, satlist)
     last_update = datetime.datetime.utcnow()
     print("Done!")
 
@@ -126,11 +124,14 @@ if __name__ in "__main__":
 
             next_update = time + datetime.timedelta(days=1)
             if next_update < last_update:
-                timestr = time.strftime("%Y, %d, %m at %H:%M")
-                print("\nUpdating predictor for {} (time is {})...  ".format(tracking, timestr), end='')
-                predictor = get_satellite(tracking)
-                last_update = datetime.datetime.utcnow()
-                print("Done!")
+                try:
+                    timestr = time.strftime("%Y, %d, %m at %H:%M")
+                    print("\nUpdating predictor for {} (time is {})...  ".format(tracking, timestr), end='')
+                    predictor, tracking = get_satellite(current_index, satlist)
+                    last_update = datetime.datetime.utcnow()
+                    print("Done!")
+                except:
+                    pass
 
     except:
         azimuth_actuator.close()
