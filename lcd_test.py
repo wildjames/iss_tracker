@@ -15,22 +15,14 @@ d6  = 16
 d7  = 20
 A   = 21
 
-lcd_rs = digitalio.DigitalInOut(rs)
-lcd_en = digitalio.DigitalInOut(en)
-lcd_d7 = digitalio.DigitalInOut(d7)
-lcd_d6 = digitalio.DigitalInOut(d6)
-lcd_d5 = digitalio.DigitalInOut(d5)
-lcd_d4 = digitalio.DigitalInOut(d4)
-lcd_backlight = digitalio.DigitalInOut(A)
-
 lcd_columns = 16
 lcd_rows = 2
 
 lcd = character_lcd.Character_LCD_Mono(
-    lcd_rs, lcd_en,
-    lcd_d4, lcd_d5, lcd_d6, lcd_d7,
+    rs, en,
+    d4, d5, d6, d7,
     lcd_columns, lcd_rows,
-    lcd_backlight)
+    A)
 
 
 lcd.display = True
