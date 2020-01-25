@@ -47,9 +47,8 @@ def cycle_station():
     current_index = current_index % len(station_names)
 
     # Set the stuff
-    tracking = station_names[current_index]
+    predictor, tracking = get_satellite(current_index, station_names, satlist)
     print("\n\n  Tracking {}".format(tracking))
-    predictor = get_satellite(current_index, station_names, satlist)
 
 
 if __name__ in "__main__":
@@ -107,7 +106,7 @@ if __name__ in "__main__":
 
             time = datetime.datetime.utcnow()
             # The positions are returned in Earth-centric, Earth fixed coords. I need to convert those.
-            ecef_location = locations.Location('', *ecef_to_llh(predictor.get_only_position(time)))
+            ecef_location = locations.Location('station', *ecef_to_llh(predictor.get_only_position(time)))
 
             ### Convert ECEF to alt, az ###
             az, elev = me.get_azimuth_elev_deg(ecef_location)
@@ -135,5 +134,5 @@ if __name__ in "__main__":
                     pass
 
     except:
-        azimuth_actuator.close()
+        azimuth_actuator.cleanup()
         elevation_actuator.close()
