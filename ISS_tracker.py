@@ -92,7 +92,6 @@ if __name__ in "__main__":
 
     station_names, satlist = get_satlist()
     current_index = 0
-    predictor, tracking = get_satellite(current_index, station_names, satlist)
     last_update = datetime.datetime.utcnow()
 
     # Where am I? Fetch from IP location.
@@ -126,7 +125,7 @@ if __name__ in "__main__":
     azimuth_actuator.home(switch)
 
     lcd.clear()
-    lcd.set_cursor(0,0)
+    predictor, tracking = get_satellite(current_index, station_names, satlist)
 
     # Main loop
     time = datetime.datetime.utcnow()
