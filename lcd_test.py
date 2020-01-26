@@ -26,4 +26,4 @@ lcd = LCD.Adafruit_CharLCD(
 
 print("Sending hello...")
 lcd.message("Hello\nWorld!!")
-time.sleep(30)
+time.sleep(99999)
