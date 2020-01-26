@@ -58,22 +58,21 @@ def cycle_station():
 
 if __name__ in "__main__":
     # Set the gpios being used here
-    stepper_pins = [17, 27, 22, 10]
-    servo_pin = 16
+    stepper_pins = [3, 4, 14, 15]
+    servo_pin = 2
 
-    homeswitch_pin = 11
+    homeswitch_pin = 17
 
-    cycle_button_pin = 12
+    cycle_button_pin = 25
 
     # LCD pins
-    lcd_rs = 14
-    lcd_rw = 15
-    lcd_en = 18
+    lcd_rs = 27
+    lcd_en = 22
 
-    lcd_d4 = 6
-    lcd_d5 = 13
-    lcd_d6 = 19
-    lcd_d7 = 26
+    lcd_d4 = 23
+    lcd_d5 = 24
+    lcd_d6 = 10
+    lcd_d7 = 9
 
     lcd_columns = 16
     lcd_rows = 2
