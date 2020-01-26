@@ -68,6 +68,7 @@ if __name__ in "__main__":
     # LCD pins
     lcd_rs = 27
     lcd_en = 22
+    lcd_backlight = 18
 
     lcd_d4 = 23
     lcd_d5 = 24
@@ -85,6 +86,8 @@ if __name__ in "__main__":
         lcd_rs, lcd_en,
         lcd_d4, lcd_d5, lcd_d6, lcd_d7,
         lcd_columns, lcd_rows,
+        backlight=lcd_backlight,
+        enable_pwm=True
     )
 
     lcd.message("FETCHING SAT.\nLIST...")
