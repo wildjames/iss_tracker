@@ -1,18 +1,21 @@
 import Adafruit_CharLCD as LCD
 import time
+from gpiozero import PWMLED
 
-lcd_rs = 14
-lcd_rw = 15
-lcd_en = 18
+# LCD pins
+lcd_rs = 27
+lcd_en = 22
+lcd_backlight_pin = 18
 
-lcd_d4 = 6
-lcd_d5 = 13
-lcd_d6 = 19
-lcd_d7 = 26
-
+lcd_d4 = 23
+lcd_d5 = 24
+lcd_d6 = 10
+lcd_d7 = 9
 
 lcd_columns = 16
 lcd_rows = 2
+
+back = PWMLED(lcd_backlight_pin, initial_value=1)
 
 lcd = LCD.Adafruit_CharLCD(
     lcd_rs, lcd_en,
@@ -23,5 +26,3 @@ lcd = LCD.Adafruit_CharLCD(
 
 print("Sending hello...")
 lcd.message("Hello\nWorld!!")
-
-lcd.message("This is a really long string I want to write to the character display")
