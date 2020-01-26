@@ -4,7 +4,7 @@ import urllib.request
 from time import sleep
 
 import geocoder
-from gpiozero import Button, DigitalOutputDevice
+from gpiozero import Button, DigitalOutputDevice, PWMLED
 from orbit_predictor import locations
 from orbit_predictor.coordinate_systems import ecef_to_llh
 from orbit_predictor.sources import get_predictor_from_tle_lines
@@ -68,7 +68,7 @@ if __name__ in "__main__":
     # LCD pins
     lcd_rs = 27
     lcd_en = 22
-    lcd_backlight = 18
+    lcd_backlight_pin = 18
 
     lcd_d4 = 23
     lcd_d5 = 24
@@ -85,10 +85,10 @@ if __name__ in "__main__":
     lcd = LCD.Adafruit_CharLCD(
         lcd_rs, lcd_en,
         lcd_d4, lcd_d5, lcd_d6, lcd_d7,
-        lcd_columns, lcd_rows,
-        backlight=lcd_backlight,
-        enable_pwm=True
+        lcd_columns, lcd_rows
     )
+    lcd_backlight = PWMLED(lcd_backlight_pin, initial_value=1.0)
+    lcd_backlight.on()
 
     lcd.message("FETCHING SAT.\nLIST...")
 
