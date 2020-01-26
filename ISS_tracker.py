@@ -88,13 +88,23 @@ if __name__ in "__main__":
         lcd_columns, lcd_rows
     )
     lcd_backlight = PWMLED(lcd_backlight_pin, initial_value=1.0)
-    lcd_backlight.on()
 
     lcd.message("FETCHING SAT.\nLIST...")
 
-    station_names, satlist = get_satlist()
-    current_index = 0
-    last_update = datetime.datetime.utcnow()
+    try:
+        station_names, satlist = get_satlist()
+        current_index = 0
+        last_update = datetime.datetime.utcnow()
+    except urllib.error.URLError:
+        lcd.message("FAILED TO GET STATION LIST")
+        while True:
+            try:
+                station_names, satlist = get_satlist()
+                current_index = 0
+                last_update = datetime.datetime.utcnow()
+            except urllib.error.URLError:
+                lcd.message("FAILED TO GET STATION LIST")
+                sleep(30)
 
     # Where am I? Fetch from IP location.
     g = geocoder.ip('me')
