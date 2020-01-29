@@ -182,7 +182,7 @@ if __name__ in "__main__":
             while datetime.datetime.utcnow() < stop:
                 sleep(0.1)
 
-            if next_update > time:
+            if next_update < time:
                 try:
                     # Home the stepper
                     lcd.clear()
