@@ -87,6 +87,7 @@ def pressed():
 if __name__ in "__main__":
     # Set the gpios being used here
     stepper_pins = [3, 4, 14, 15]
+    home_angle = 0.0
     servo_pin = 2
 
     homeswitch_pin = 17
@@ -165,7 +166,7 @@ if __name__ in "__main__":
     lcd.set_cursor(0,0)
     lcd.message("Homing\nstepper motor...  ")
 
-    azimuth_actuator.home(switch, 210.0)
+    azimuth_actuator.home(switch, home_angle)
 
     lcd.clear()
     predictor, tracking = get_satellite(current_index, station_names, satlist)
@@ -202,7 +203,7 @@ if __name__ in "__main__":
                     lcd.clear()
                     lcd.set_cursor(0,0)
                     lcd.message("Re-homing\nstepper motor...  ")
-                    azimuth_actuator.home(switch, 210.0)
+                    azimuth_actuator.home(switch, home_angle)
 
                     station_names, satlist = get_satlist()
                     predictor, tracking = get_satellite(current_index, station_names, satlist)
