@@ -69,6 +69,20 @@ def revert_ISS():
     # Set the stuff
     predictor, tracking = get_satellite(current_index, station_names, satlist)
 
+Button.was_held = False
+
+def held(cycle_button):
+    cycle_button.was_held = True
+    revert_ISS()
+
+def released(cycle_button):
+    if not cycle_button.was_held:
+        pressed()
+    cycle_button.was_held = False
+
+def pressed():
+    cycle_station()
+
 
 if __name__ in "__main__":
     # Set the gpios being used here
@@ -143,9 +157,9 @@ if __name__ in "__main__":
         bounce_time=1.0,
         hold_time=5.0, hold_repeat=False,
     )
-    cycle_button.when_released = cycle_station
-    cycle_button.when_held = revert_ISS
 
+    cycle_button.when_held = held
+    cycle_button.when_released = released
 
     # Home the stepper
     lcd.clear()
