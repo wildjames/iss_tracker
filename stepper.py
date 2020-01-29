@@ -50,7 +50,7 @@ class stepMotors:
                 [1,0,1,1],
                 [0,0,1,1],
                 [0,1,1,1],
-            ]
+            ][::-1]
         # This counter tracks where we are in the above sequence
         self.stepCounter = 0
 
