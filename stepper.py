@@ -165,7 +165,7 @@ class stepMotors:
             self.step(direction)
             dist = abs(self.angle - desired_angle)
 
-    def home(self, switch):
+    def home(self, switch, home_angle=0.0):
         '''Homes the motor. Rotates until limit switch is hit by
         e.g., a cam on the shaft. Then reverses 5 degrees and slowly approaches it again.'''
         wait = self.WAIT_TIME
@@ -181,8 +181,8 @@ class stepMotors:
         while not switch.is_pressed:
             self.step(1)
             time.sleep(self.WAIT_TIME*10)
-        self.location = 0
-        print("Stepper at home location!")
+
+        self.location = home_angle
 
 
     def step(self, direction):
