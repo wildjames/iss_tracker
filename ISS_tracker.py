@@ -151,7 +151,7 @@ if __name__ in "__main__":
     lcd.set_cursor(0,0)
     lcd.message("Homing\nstepper motor...  ")
 
-    azimuth_actuator.home(switch, 259.0)
+    azimuth_actuator.home(switch, 224.0)
 
     lcd.clear()
     predictor, tracking = get_satellite(current_index, station_names, satlist)
@@ -159,6 +159,8 @@ if __name__ in "__main__":
     # Main loop
     time = datetime.datetime.utcnow()
     dt = datetime.timedelta(minutes=1)
+
+    next_update = time + datetime.timedelta(minutes=3)
     try:
         while True:
 
@@ -180,19 +182,17 @@ if __name__ in "__main__":
             while datetime.datetime.utcnow() < stop:
                 sleep(0.1)
 
-            next_update = time + datetime.timedelta(days=1)
-            if next_update < last_update:
+            if next_update > time:
                 try:
                     # Home the stepper
                     lcd.clear()
                     lcd.set_cursor(0,0)
-                    lcd.message("Homing\nstepper motor...  ")
-
-                    azimuth_actuator.home(switch, 259.0)
+                    lcd.message("Re-homing\nstepper motor...  ")
+                    azimuth_actuator.home(switch, 224.0)
 
                     station_names, satlist = get_satlist()
                     predictor, tracking = get_satellite(current_index, station_names, satlist)
-                    last_update = datetime.datetime.utcnow()
+                    next_update = time + datetime.timedelta(minutes=3)
                 except:
                     pass
 
