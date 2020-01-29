@@ -28,7 +28,7 @@ class Servo():
         self.max_angle = max_angle
 
         self.min_pwm = 500.
-        self.max_pwm = 2400.
+        self.max_pwm = 2000.
 
         if min_allowed is None or min_allowed < min_angle:
             min_allowed = min_angle
