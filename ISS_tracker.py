@@ -161,7 +161,7 @@ if __name__ in "__main__":
     time = datetime.datetime.utcnow()
     dt = datetime.timedelta(minutes=1)
 
-    next_update = time + datetime.timedelta(minutes=3)
+    next_update = time + datetime.timedelta(days=1)
     try:
         while True:
 
@@ -193,7 +193,7 @@ if __name__ in "__main__":
 
                     station_names, satlist = get_satlist()
                     predictor, tracking = get_satellite(current_index, station_names, satlist)
-                    next_update = time + datetime.timedelta(minutes=3)
+                    next_update = time + datetime.timedelta(days=1)
                 except:
                     pass
 
