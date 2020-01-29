@@ -117,7 +117,10 @@ if __name__ in "__main__":
     sleep(10)
 
     # Set up actuators
-    elevation_actuator = Servo(servo_pin, 0, min_angle=-87, max_angle=108, min_allowed=-80)
+    elevation_actuator = Servo(
+        servo_pin,
+        initial_angle=0, min_angle=-101, max_angle=84,
+        min_allowed=-90)
     azimuth_actuator = stepMotors(stepper_pins)
 
     # Buttons
