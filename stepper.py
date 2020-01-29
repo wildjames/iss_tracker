@@ -182,8 +182,7 @@ class stepMotors:
             self.step(1)
             time.sleep(self.WAIT_TIME*10)
 
-        self.location = home_angle
-
+        self.location = home_angle / (360./self.STEPS_PER_REV)
 
     def step(self, direction):
         '''Direction: +1 for clockwise, -1 counter clockwise'''
