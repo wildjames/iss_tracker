@@ -195,7 +195,10 @@ if __name__ in "__main__":
                     predictor, tracking = get_satellite(current_index, station_names, satlist)
                     next_update = time + datetime.timedelta(days=1)
                 except:
-                    pass
+                    lcd.clear()
+                    lcd.set_cursor(0,0)
+                    lcd.message("FETCHING FAILED!")
+                    next_update = time + datetime.timedelta(minutes=15)
 
     except:
         elevation_actuator.angle = -90.0
