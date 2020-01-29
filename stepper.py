@@ -174,7 +174,7 @@ class stepMotors:
             self.step(1)
 
         # The switch is now pushed. Back off a few degrees
-        for _ in range(30 * int(self.STEPS_PER_REV/360.)):
+        for _ in range(10 * int(self.STEPS_PER_REV/360.)):
             self.step(-1)
 
         # Slowly approach the limit
