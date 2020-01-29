@@ -113,7 +113,7 @@ if __name__ in "__main__":
 
     lcd.clear()
     lcd.set_cursor(0,0)
-    lcd.message("I am at lat, lon\n{:6.2f}, {:6.2f}".format(lat, lon))
+    lcd.message("I am at lat, lon\n{:8.2f}{:8.2f}".format(lat, lon))
     sleep(10)
 
     # Set up actuators
