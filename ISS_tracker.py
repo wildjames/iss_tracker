@@ -15,6 +15,10 @@ from stepper import stepMotors
 
 
 def get_satlist():
+    lcd.clear()
+    lcd.set_cursor(0,0)
+    lcd.message("FETCHING SAT.\nLIST...")
+
     url = "https://www.celestrak.com/NORAD/elements/stations.txt"
     response = urllib.request.urlopen(url)
 
@@ -98,8 +102,6 @@ if __name__ in "__main__":
     )
     lcd_backlight = PWMLED(lcd_backlight_pin, initial_value=1.0)
 
-    lcd.message("FETCHING SAT.\nLIST...")
-
     try:
         station_names, satlist = get_satlist()
         current_index = 0
@@ -116,9 +118,10 @@ if __name__ in "__main__":
                 sleep(30)
 
     # Where am I? Fetch from IP location.
-    g = geocoder.ip('me')
-    lat, lon = g.latlng
-    me = locations.Location('me', lat, lon, 0)
+    # g = geocoder.ip('me')
+    # lat, lon = g.latlng
+    lat, lon = 53.3809, -1.4879
+    me = locations.Location('me', lat, lon, 150)
 
     lcd.clear()
     lcd.set_cursor(0,0)
@@ -148,7 +151,7 @@ if __name__ in "__main__":
     lcd.set_cursor(0,0)
     lcd.message("Homing\nstepper motor...  ")
 
-    azimuth_actuator.home(switch)
+    azimuth_actuator.home(switch, 259.0)
 
     lcd.clear()
     predictor, tracking = get_satellite(current_index, station_names, satlist)
@@ -180,6 +183,14 @@ if __name__ in "__main__":
             next_update = time + datetime.timedelta(days=1)
             if next_update < last_update:
                 try:
+                    # Home the stepper
+                    lcd.clear()
+                    lcd.set_cursor(0,0)
+                    lcd.message("Homing\nstepper motor...  ")
+
+                    azimuth_actuator.home(switch, 259.0)
+
+                    station_names, satlist = get_satlist()
                     predictor, tracking = get_satellite(current_index, station_names, satlist)
                     last_update = datetime.datetime.utcnow()
                 except:
