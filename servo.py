@@ -27,6 +27,9 @@ class Servo():
         self.min_angle = min_angle
         self.max_angle = max_angle
 
+        self.min_pwm = 500.
+        self.max_pwm = 2400.
+
         if min_allowed is None or min_allowed < min_angle:
             min_allowed = min_angle
         if max_allowed is None or max_allowed > max_angle:
@@ -50,7 +53,7 @@ class Servo():
 
         self._value = value
 
-        val = 500. + (value*2000.)
+        val = self.min_pwm + (value * self.max_pwm)
         self._pi.set_servo_pulsewidth(self.pin, val)
 
     @property
