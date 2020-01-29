@@ -51,7 +51,6 @@ def cycle_station():
     global satlist
     global tracking
     global predictor
-    global lcd
 
     current_index += 1
     current_index = current_index % len(station_names)
@@ -63,6 +62,8 @@ def revert_ISS():
     global station_names
     global satlist
     global current_index
+    global tracking
+    global predictor
 
     current_index = 0
     # Set the stuff
