@@ -36,7 +36,7 @@ def get_satellite(index, station_names, satlist):
     predictor = get_predictor_from_tle_lines(TLE_LINES)
 
     lcd.set_cursor(0,0)
-    lcd.message("{: <16s}".format(station_names[index]))
+    lcd.message("{:<16s}".format(station_names[index]))
 
     return predictor, station_names[index]
 
@@ -176,5 +176,5 @@ if __name__ in "__main__":
         elevation_actuator.close()
         lcd.clear()
         lcd.set_cursor(0,0)
-        lcd.message("Fine, leave, see if I care")
+        lcd.message("Fine, leave,\nsee if I care")
 
