@@ -154,7 +154,6 @@ if __name__ in "__main__":
     switch = Button(homeswitch_pin)
     cycle_button = Button(
         cycle_button_pin,
-        bounce_time=1.0,
         hold_time=5.0, hold_repeat=False,
     )
 
