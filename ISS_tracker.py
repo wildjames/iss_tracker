@@ -140,10 +140,10 @@ if __name__ in "__main__":
     switch = Button(homeswitch_pin)
     cycle_button = Button(
         cycle_button_pin,
-        bounce_time=0.01,
-        hold_time=5.0,
+        bounce_time=1.0,
+        hold_time=5.0, hold_repeat=False,
     )
-    cycle_button.when_pressed = cycle_station
+    cycle_button.when_released = cycle_station
     cycle_button.when_held = revert_ISS
 
 
