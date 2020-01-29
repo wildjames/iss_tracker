@@ -186,6 +186,9 @@ if __name__ in "__main__":
                     pass
 
     except:
+        azimuth_actuator.to_angle(0.0)
+        elevation_actuator.angle = -90.0
+
         azimuth_actuator.cleanup()
         elevation_actuator.close()
         lcd.clear()
