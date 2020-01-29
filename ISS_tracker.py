@@ -199,7 +199,7 @@ if __name__ in "__main__":
 
     except:
         elevation_actuator.angle = -90.0
-        azimuth_actuator.to_angle(0.0, block=True)
+        azimuth_actuator.to_angle(270.0, block=True)
 
         azimuth_actuator.cleanup()
         elevation_actuator.close()
