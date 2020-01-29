@@ -55,6 +55,15 @@ def cycle_station():
     # Set the stuff
     predictor, tracking = get_satellite(current_index, station_names, satlist)
 
+def revert_ISS():
+    global station_names
+    global satlist
+    global current_index
+
+    current_index = 0
+    # Set the stuff
+    predictor, tracking = get_satellite(current_index, station_names, satlist)
+
 
 if __name__ in "__main__":
     # Set the gpios being used here
@@ -113,7 +122,7 @@ if __name__ in "__main__":
 
     lcd.clear()
     lcd.set_cursor(0,0)
-    lcd.message("I am at lat, lon\n{:8.2f}{:8.2f}".format(lat, lon))
+    lcd.message("I am at lat, lon\n{:<8.2f}{:>8.2f}".format(lat, lon))
     sleep(10)
 
     # Set up actuators
@@ -127,9 +136,11 @@ if __name__ in "__main__":
     switch = Button(homeswitch_pin)
     cycle_button = Button(
         cycle_button_pin,
-        bounce_time=0.01
+        bounce_time=0.01,
+        hold_time=5.0,
     )
     cycle_button.when_pressed = cycle_station
+    cycle_button.when_held = revert_ISS
 
 
     # Home the stepper
