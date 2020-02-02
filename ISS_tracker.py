@@ -87,7 +87,7 @@ def pressed():
 if __name__ in "__main__":
     # Set the gpios being used here
     stepper_pins = [3, 4, 14, 15]
-    home_angle = 245.0 # This sets North as directly in front of the box.
+    home_angle = 230.0 # This sets North as directly in front of the box.
     servo_pin = 2
 
     homeswitch_pin = 17
