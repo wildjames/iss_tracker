@@ -178,6 +178,10 @@ class stepMotors:
         while not switch.is_pressed and i <= self.STEPS_PER_REV:
             self.step(1)
             i += 1
+        if i == self.STEPS_PER_REV:
+            print("FAILED TO HOME!")
+            return
+
 
         # The switch is now pushed. Back off a few degrees
         for _ in range(30 * int(self.STEPS_PER_REV/360.)):
