@@ -191,7 +191,7 @@ if __name__ in "__main__":
 
             # Move the actuators to the right angles
             elevation_actuator.angle = elev
-            azimuth_actuator.to_angle(az)
+            azimuth_actuator.to_angle(az, block=True)
 
             stop = time + datetime.timedelta(seconds=DELAY)
             while datetime.datetime.utcnow() < stop:
