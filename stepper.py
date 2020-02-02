@@ -170,8 +170,14 @@ class stepMotors:
         e.g., a cam on the shaft. Then reverses 5 degrees and slowly approaches it again.'''
         wait = self.WAIT_TIME
 
-        while not switch.is_pressed:
+        while switch.is_pressed:
+            for _ in range(10 * int(self.STEPS_PER_REV/360.)):
+                self.step(-1)
+
+        i = 0
+        while not switch.is_pressed and i <= self.STEPS_PER_REV:
             self.step(1)
+            i += 1
 
         # The switch is now pushed. Back off a few degrees
         for _ in range(30 * int(self.STEPS_PER_REV/360.)):

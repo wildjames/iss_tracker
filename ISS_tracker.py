@@ -87,7 +87,7 @@ def pressed():
 if __name__ in "__main__":
     # Set the gpios being used here
     stepper_pins = [3, 4, 14, 15]
-    home_angle = 245.0
+    home_angle = 245.0 # This sets North as directly in front of the box.
     servo_pin = 2
 
     homeswitch_pin = 17
@@ -191,20 +191,19 @@ if __name__ in "__main__":
 
             # Move the actuators to the right angles
             elevation_actuator.angle = elev
-            azimuth_actuator.to_angle(az, block=True)
+            azimuth_actuator.to_angle(az)
 
             stop = time + datetime.timedelta(seconds=DELAY)
             while datetime.datetime.utcnow() < stop:
                 sleep(0.1)
 
             if next_update < time:
+                # Home the stepper
+                lcd.clear()
+                lcd.set_cursor(0,0)
+                lcd.message("Re-homing\nstepper motor...  ")
+                azimuth_actuator.home(switch, home_angle)
                 try:
-                    # Home the stepper
-                    lcd.clear()
-                    lcd.set_cursor(0,0)
-                    lcd.message("Re-homing\nstepper motor...  ")
-                    azimuth_actuator.home(switch, home_angle)
-
                     station_names, satlist = get_satlist()
                     predictor, tracking = get_satellite(current_index, station_names, satlist)
                     next_update = time + datetime.timedelta(days=1)
