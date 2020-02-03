@@ -134,9 +134,9 @@ if __name__ in "__main__":
                 sleep(30)
 
     # Where am I? Fetch from IP location.
-    # g = geocoder.ip('me')
-    # lat, lon = g.latlng
-    lat, lon = 53.3809, -1.4879
+    g = geocoder.ip('me')
+    lat, lon = g.latlng
+    # lat, lon = 53.3809, -1.4879
     me = locations.Location('me', lat, lon, 150)
 
     lcd.clear()
